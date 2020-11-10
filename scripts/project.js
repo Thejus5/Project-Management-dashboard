@@ -47,7 +47,9 @@ function addOrUpdateProject(e) {
         }
 
         // Function call to update changes to remote storage bin.
-        put(urlList.projects, secretKey, projects, printResult);
+        put(urlList.projects, secretKey, projects, ()=>{
+            latestOfflineProjects = projects
+        });
         tagify.removeAllTags();
         addProjectFunctionality = true;
         loadProjectList();

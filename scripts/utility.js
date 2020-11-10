@@ -31,10 +31,12 @@ function printResult(res) {
 
 function storeProjectData(res) {
     projects = res;
+    latestOfflineProjects = res
 }
 
 function storeResourceData(res) {
     resources = res;
+    latestOfflineResources = res
 }
 
 let put = function (url, secretKey, obj, callback) {
@@ -241,3 +243,5 @@ function createChart(canvas, labels, legendLabel, dataValues, backgroundColorVal
         }
     })
 }
+
+let latestOfflineResources, latestOfflineProjects, offlineReports

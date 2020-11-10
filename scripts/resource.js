@@ -29,7 +29,9 @@ function addOrUpdateObject (resourceDetails) {
 
 // Function call to update changes to remote storage bin.
 function sendFormData () {
-    put(urlList.resources, secretKey, resources, printResult);
+    put(urlList.resources, secretKey, resources, ()=>{
+        latestOfflineResources = resources
+    });
     loadResources();
     resourceFormModal.style.display = "none";
     formsContainer.style.display = "none";

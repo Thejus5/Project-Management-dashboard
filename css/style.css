@@ -666,6 +666,10 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     transform: scale(1.03);
 } 
 
+.status-error {
+    visibility: hidden;
+}
+
 
 .report-history{
     margin-top: 20px;

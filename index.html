@@ -30,6 +30,7 @@
     <script defer src="scripts/formValidations.js"></script>
     <script defer src="scripts/project.js"></script>
     <script defer src="scripts/resource.js"></script>
+    <script defer src="scripts/status.js"></script>
     
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.20.3/tagify.min.css" integrity="sha512-WHUiCHz/wMPvwLomZas+LNiUjd2mMhIdM2ybtlsC2TM6E+EGjn8PIbXnoPgh7sXgYaomLMVQCRVPQpAq2vkZ4g==" crossorigin="anonymous" />
@@ -350,10 +351,11 @@
                             <div class="resource-group">
                                 <label> Resources </label>
                                 <select name="Resources" id="resources-dropdown">
-                                    <option value="resource1">Resource 1</option>
-                                    <option value="resource2">Resource 2</option>
-                                    <option value="resource3">Resource 3</option>
+                                    <option value="Select Resource">Select Resource</option>
+                                    <!-- <option value="resource2">Resource 2</option>
+                                    <option value="resource3">Resource 3</option> -->
                                 </select>
+                                <p class="status-error resources-dropdown-error">Error</p>
                             </div>
 
                             <div class="date-select-group">
@@ -371,14 +373,15 @@
                             <div class="activity-group">
                                 <label> Activity </label>
                                 <select name="Activity" id="activity-dropdown">
-                                    <option value="activity1">Activity 1</option>
+                                    <!-- <option value="activity1">Activity 1</option>
                                     <option value="activity2">Activity 2</option>
-                                    <option value="activity3">Activity 3</option>
+                                    <option value="activity3">Activity 3</option> -->
                                 </select>
                             </div>
                         </div>
 
                         <button class="status-submit">Submit</button>
+                        <p class="main-error status-error"></p>
 
                         <div class="report-history">
                             <p class="history-heading">Status History</p>
