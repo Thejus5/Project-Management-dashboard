@@ -1,0 +1,170 @@
+/*................................................
+    1. BASIC STYLING FOR COMMON HTML ELEMENTS
+.................................................*/
+body { 
+    background-color: rgba(14, 20, 24, 0.938);  
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+}
+
+.main {
+    justify-content: space-evenly; 
+    margin: 25px; 
+    align-items: center;
+}
+.main > section {margin: 25px 0;}
+
+/*................................................
+    2. COMMON CSS CLASSES
+.................................................*/
+.flex-wrap {flex-wrap: wrap;}
+.row-align {flex-direction: row;}
+.space-between {justify-content: space-between;}
+.space-evenly {justify-content: space-evenly;}
+.align-baseline {align-items: baseline;}
+
+section {box-shadow: inset 1px 1px 8px 5px rgb(43, 64, 75);}
+
+/*................................................
+    3. BODY SECTION
+.................................................*/
+
+/* Each section card */
+.card, .card img {
+    height: calc(100vh / 2 - 55px);
+    width: calc(100vw / 2 - 55px);
+}
+
+section:first-child {
+    box-shadow: none;
+    height: calc(100vh / 2 - 50px);
+    width: calc(100vw / 2 - 50px);
+}
+
+/* Statistics cards */
+.statistics-card {justify-content: space-evenly; align-items: center;}
+.statistics-card > div {
+    height: calc((100vh / 2)/ 2 - 50px);
+    width: calc((100vw / 2)/ 2 - 40px);
+    box-shadow: inset 1px 1px 8px 5px rgb(43, 64, 75);
+    justify-content: space-evenly;
+    background-color: #2e3c43;
+    border-radius: 6px;
+}
+.card{
+    background-color: #2e3c43;
+    border-radius: 6px;
+    justify-content: space-between;
+}
+.card:first-child{
+    background-color: rgba(14, 20, 24, 0.938);  ;
+}
+.card-icon { align-self: center; background-color: rgba(155, 185, 202); border-radius: 50%; box-shadow: inset 1px 1px 18px 5px rgba(43, 64, 75, 0.411);}
+
+.card-icon img {
+    height: 80px; 
+    width: 80px; 
+    border-radius: 50%;
+}
+
+.card-content {align-items: center; width:40%;}
+.count {
+    font-size: 2rem; 
+    animation: glow 2s infinite alternate-reverse;
+}
+
+@keyframes glow {
+    from {text-shadow: 0px 0px 15px var(--font-color);}
+    to {text-shadow: 0px 0px 30px var(--font-color);}
+}
+
+/* Technology Cards */
+.technology-project-count {overflow: scroll;}
+.technology-project-count > * {margin-top: 6px; padding: 5px;}
+.technology-project-count > :nth-child(2) {margin-top: 35px;}
+.technology-project-count > div {margin-top: 20px;}
+.technology-project-count >:last-child {
+    margin-bottom: 20px;
+}
+
+.technology .count {
+    flex: 0.5;
+    margin: 0px 30px 0 20px;
+    text-align: end;
+}
+.technology__details {flex: 2.5;}
+.technology-name {text-align: left;}
+
+.progress {
+    margin: 15px 3px 0 0;
+    background: var(--font-color);
+	-moz-border-radius: 26px;
+	-webkit-border-radius: 26px;
+	border-radius: 26px;
+    padding: 3px;
+    width: 0%;
+}
+
+.card-plot__title {
+    padding: 15px 0 6px 20px; 
+    font-size: 13px; 
+    font-weight: lighter;
+    color: rgba(155, 185, 202, 0.878);
+    position: absolute;
+    width: inherit;
+}
+
+/* Plotting cards */
+.card-plot {
+    padding: 45px 5px 15px 25px;
+}
+.plot {overflow: hidden;}
+
+.chart {
+    height: auto;
+}
+
+.footer {box-shadow: 0 8px 6px -6px rgb(14, 20, 24);}
+
+/*................................................
+    4. MEDIA QUERIES
+.................................................*/
+
+@media (max-width: 937px) {
+    body { 
+        background-color: rgba(14, 20, 24, 0.651);  
+        font-size: 13px;
+    }
+    .card-icon img {
+        height: 80px; 
+        width: 80px; 
+    }
+    .count {
+        font-size: 1.5rem;
+    } 
+}
+
+/* Mobile View */
+@media (max-width: 800px) {
+    .main {flex-direction: column;}
+    .main > section {width: 100%;}
+
+    .statistics-card > div {
+        flex: 0 0 49%;
+        align-content: space-between;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .statistics-card > div {
+        flex: 0 0 49%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .card-icon img {display: none;}
+    .card-content {width: 100%;}
+}

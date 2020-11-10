@@ -1,0 +1,341 @@
+@media (max-width: 1550px) {
+    .project-list{font-size: 13px;}
+}
+
+@media (max-width:1100px){
+    .project-list{width: 35%;}
+}
+
+@media (max-width: 936px) {
+    body {
+        overflow-x: hidden;
+        background-color: var(--primary-color);  
+        min-height: 100%;
+        font-size: 13px;
+    }
+
+    /* Header */
+    .hamburger { display: flex; right: 15px;} 
+
+    .options {
+        position: absolute;
+        top: 55px;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0 0 0 10px;
+        background-color: var(--primary-color);
+        align-items: center; 
+        opacity: 0;
+        z-index: -1;
+        padding: 5%;
+        height: auto;
+    }
+
+    .options > span {
+        flex-direction: column; 
+        padding: 20px;
+        border-bottom: 1px solid var(--font-color);
+        width: 90%;
+    }
+    .options > span:nth-child(3) {
+        border-bottom: none;
+    }
+
+    .options-active {
+        z-index: 6;
+        opacity: 1;
+        transition: opacity 0.3s ease-in;
+    }
+    
+    /* Add Project Button */
+    .banner__button {
+        padding: 15px 25px;
+        border-radius: 30px;
+        width: auto;
+        position: fixed;
+        bottom: 65px;
+        right: 10px;
+        border: 0.05px dotted var(--font-color);
+        opacity: 0.9;
+        box-shadow: 0 4px 8px 0 rgba(1, 18, 72, 0.2), 0 6px 20px 0 rgba(1, 18, 72, 0.19);
+        z-index: 1;
+    }
+
+    #logout-button {
+        display: flex;
+        height: inherit;
+        width: inherit;
+        position: relative;
+        top: 0;
+        background: rgb(14, 20, 24);
+        margin: 20px 0 0 0;
+    }
+
+    /* Project List */
+    .circular, .circular .inner {display: none;}
+    .header, .main, .section, .project-list {margin: 0;}
+    .project-details {
+        margin: 10px 0;
+    }
+
+    .project-list{
+        width: 35%; 
+        overflow-y: auto;
+        overflow-x: hidden;
+    } 
+
+    .stretch-heading{flex: inherit;}
+
+    .main-details {flex-wrap: wrap; justify-content: space-between;}
+    .main-details > * {flex: 0 1 50%;}
+    .section1 {flex: 4;}
+    .section2 > span {margin: 0 0 0 10vh;}
+    .section3 > * {margin: 0 0 20px 0;}
+    .section3 > *:nth-last-child(2){order: 1;}
+
+    .modal {z-index: 7;}
+    .modal-content {width: 50%;}
+
+    .invoice-content {
+        flex: 0 0 90%;
+    }
+
+}
+
+@media (max-width:900px) {
+    .website-header{transform: scale(0.8);}
+    .modal-content{width: 60%;}
+    .resource table, .resource thead, .resource tbody, .resource th, .resource td, .resource tr { 
+        display: block; 
+        text-align: left;
+    }
+    .project-list{width: 35%;}
+
+    /* Hide table headers */
+	.resource thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+    }
+    .resource tr {
+        margin-bottom:  10px;
+        border: 1px solid var(--font-color);
+        border-radius: 6px;
+        padding: 0 1px;
+    }
+    .resource td { 
+		/* Behave  like a "row" */
+		border: none;
+		position: relative;
+        padding-left: 50%; 
+    }
+
+    .resource td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    /*Label the Resource data*/
+	.resource td:nth-of-type(1):before { content: "Name"; }
+	.resource td:nth-of-type(2):before { content: "Role"; }
+	.resource td:nth-of-type(3):before { content: "Email"; }
+    .resource td:nth-of-type(4):before { content: "Billable"; }
+    .resource td:nth-of-type(5)::before {content: 'Rate/hour';}
+
+    .resource td:nth-last-child(1){
+        padding-left: 25%;
+    }
+    .resource .margin-right10 {margin: 0 50% 0 0;}
+}
+
+@media (max-width:671px) {
+    .options > span > a {
+        padding: 5px 40px; 
+    }
+    .icon {
+        height: 20px;
+    }
+    .modal-content{width: 70%;}
+    .margin-bottom20 {margin: 0 0 10px 0;}
+
+    .main-details {flex-direction: column;}
+    .main-details > *:nth-last-child(2){order: 1;}
+    .main-details > *:nth-last-child(1){order: 3; }
+    .main-details > *:nth-last-child(3){order: 2;}
+    .section2 > span {margin: 0 0 10px 0vh;}
+
+    .invoice-generate {flex-direction: column;}
+    .invoice-generate > span {margin-bottom: 15px;}
+    .invoice-content {flex: 0 0 100%;}
+}
+
+@media (max-width:630px) {
+    html {max-height: 100%;}
+    .website-header{transform: scale(0.9);}
+    body{font-size: 12px;}
+    h1 {font-size: 22px;}
+    h3 {font-size: 16px;}
+
+    .banner__button {
+        font: 12px color;
+        padding: 10px 18px;
+        font-family: "Rubik-Medium", Arial, Helvetica;
+    }
+    .modal-content{width: 75%;}
+
+    #expand-projects {display: block;}
+    
+    .project-list__body {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        width: 50%;
+        background-color: black;
+        overflow: scroll;
+        max-height: 100%;
+    }
+
+    .project-list {width: 5%;}
+    
+    .circular--main {
+        height: 110px;
+        width: 110px;
+    }
+    
+    .circular--main .inner--main {
+        height: 90px;
+        width: 90px;
+    }
+
+    .expand-list {
+        display: block;
+        position: absolute;
+        z-index: 6;
+        cursor: pointer;
+    }
+
+    .expand-list {animation: expandList 2s infinite forwards;}
+    .expand-list:hover {animation-play-state: paused;}
+
+    @keyframes expandList {
+        0% {width: 20px;}
+        100% {width: 25px;}
+    }
+
+    .project-details{width: 100%;}
+
+    .add-resource {margin: 25px 0 15px 0;}
+}
+
+@media (max-width:480px) {
+    #start-date, #end-date {width: auto;}
+    .website-header{transform: scale(0.9);}
+    .margin-bottom20 {margin: 0 0 10px 0;}
+    .dates {flex-direction: column;}
+    .dates > * {width: 100%;}
+    .dates >:first-child{margin: 0 0 10px 0;}
+
+    .tables {display: block;overflow-x: auto; overflow-wrap: anywhere;}
+
+    .add-project {width: auto;}
+    
+    /* Hide table headers */
+    .invoice-table thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .invoice-table tr {
+        margin-bottom:  10px;
+        border: 1px solid var(--font-color);
+        border-radius: 6px;
+        padding: 0 1px;
+    }
+    
+    .invoice-table td { 
+        /* Behave  like a "row" */
+        border: none;
+        position: relative;
+        padding-left: 50%; 
+    }
+
+    .invoice-table td:before { 
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        text-align: left;
+    }
+    .invoice-table table, .invoice-table thead, .invoice-table tbody, .invoice-table th, .invoice-table td, .invoice-table tr { 
+        display: block; 
+    }
+    .invoice td:nth-of-type(1):before { content: "Name"; }
+	.invoice td:nth-of-type(2):before { content: "Rate/hour"; }
+    .invoice td:nth-of-type(3):before { content: "Amount"; }
+    
+    .invoice-table table tbody >:last-child td:nth-of-type(1)::before,
+    .invoice-table table tbody >:last-child td:nth-of-type(1)::after {
+       content: '';
+    }
+    .invoice-table table tbody >:last-child td:nth-of-type(2)::before,
+    .invoice-table table tbody >:last-child td:nth-of-type(2)::after{
+        content: '';
+    }
+    .invoice-table table tbody >:last-child td:nth-of-type(3)::before {
+        content: '';
+    } 
+}
+
+@media (max-width:375px) {
+    .website-header {display: none;}
+    .hamburger {width: 25px;}
+    h1 {font-size: 10px;}
+    .banner__button {padding: 10px 15px;}
+    .section2 > span {margin: 0 0 0 10vh;}
+    .modal-content {width: 90%;}
+    .section2 > span {margin: 0 0 5vh 0vh;}
+
+    .circular--main {
+        height: 10vh;
+        width: 10vh;
+        border-radius: 100%;
+    }
+    .circular--main .inner--main {
+        height: 8vh;
+        width: 8vh;
+        border-radius: 100%;
+        animation: none;
+    }
+}
+
+@media (max-width:270px){
+    body{font-size: 11px;}
+    h3 {font-size: 14px;}
+    .banner__button,
+    .add-project,
+    .add-resource {
+        font: 11px color;
+        font-family: "Rubik-Medium", Arial, Helvetica;
+    }
+    .header__logo::before,
+    .header__logo::after {
+        content: '';
+    }
+    .section1{overflow-wrap: anywhere;}
+    .section2 > span {
+        margin: 0 0 3vh 0vh;
+    }
+}

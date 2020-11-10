@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1">
+    <title>Project Dashboard</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+        integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.0/d3.min.js"
+        integrity="sha512-5K26U2JrBY0NJ/PVtWxH83wFeLdHPnrUxfw5GrE+kYTR8NglhnG0AdxFCJJuaPIp/4WJTaWK6MZHagmkBcgA2g=="
+        crossorigin="anonymous"></script>
+    <script defer src="scripts/utility.js"></script>
+    <script defer src="scripts/dashboard.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
+        integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.20.3/tagify.min.css"
+        integrity="sha512-WHUiCHz/wMPvwLomZas+LNiUjd2mMhIdM2ybtlsC2TM6E+EGjn8PIbXnoPgh7sXgYaomLMVQCRVPQpAq2vkZ4g=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dashboardStyle.css">
+</head>
+
+<body class="display-flex column-align">
+    <!-- Header begins-->
+    <header id="header" class="header">
+        <div class="display-flex header-align">
+            <!--TRIAL-->
+            <div class="hamburger display-flex flex-center" id="more-options">
+                <div></div>
+            </div>
+            <!-- Logo Section -->
+            <h1 class="header__logo">
+                <a href="index.html" ><img src="images/logo.png" alt="ProjectManager Logo" class="logo"></a> 
+                <span class="website-header">&ensp; Project Manager </span>
+            </h1>
+            <div class="options display-flex"><!-- User Section -->
+                <span class="highlight-tab"><a href="dashboard.html" >Dashboard</a></span>
+                <span><a href="index.html">Projects</a></span>
+                <span id="user"> Welcome, User &ensp; &#9660;
+                    <span id="logout-button"><a href="index.html"><img src="images/logout.png" alt="Logout Icon" class="icon"></a></span>
+                </span>
+            </div>
+        </div>
+    </header>
+    <!-- Header ends-->
+
+    <!-- Main content begins-->
+    <main id="main" class="main display-flex flex-wrap row-align space-between">
+
+        <!-- Cards for Total number of projects, number of employees, billables, and shadows -->
+        <section class="card display-flex flex-wrap statistics-card" id="statistics-card">
+
+            <!-- Projects Count Card Begins -->
+            <div class="display-flex row-align">
+                <span class="card-icon"><img src="images/Projects.ico" alt="Logo" class="icon"></span>
+                <span class="display-flex column-align space-evenly card-content">
+                    <span class="count glow" id="projects-count"></span>
+                    <span class="card-name">Projects</span>
+                </span>
+            </div>
+            <!-- Projects Count Card Ends -->
+
+            <!-- Employees Count Card Begins -->
+            <div class="display-flex row-align">
+                <span class="card-icon"><img src="images/Human_Resources.png" alt="Logo"></span>
+                <span class="display-flex column-align space-evenly card-content">
+                    <span class="count" id="employees-count"></span>
+                    <span class="card-name">Resources</span>
+                </span>
+            </div>
+            <!-- Employees Count Card Ends -->
+
+            <!-- Billable Employees Count Card Begins -->
+            <div class="display-flex row-align">
+                <span class="card-icon"><img src="images/Office.png" alt="Logo"></span>
+                <span class="display-flex column-align space-evenly card-content">
+                    <span class="count" id="billables"></span>
+                    <span class="card-name">Billable</span>
+                </span>
+            </div>
+            <!-- Billable Employees Count Card Ends -->
+
+            <!-- Shadow Employees Count Card Begins -->
+            <div class="display-flex row-align">
+                <span class="card-icon"><img src="images/Employees.png" alt="Logo"></span>
+                <span class="display-flex column-align space-evenly card-content">
+                    <span class="count" id="shadows"></span>
+                    <span class="card-name">Shadow</span>
+                </span>
+            </div>
+            <!-- Shadow Employees Count Card Ends -->
+
+        </section>
+
+
+        <!-- Cards for Total number of projects per technology -->
+        <section class="card display-flex column-align technology-project-count" id="technology-project-count">
+            <span class="card-plot__title">Projects</span>
+            <!-- Details -->
+        </section>
+
+        <!-- Cards for Total number of projects, number of employees, billables, and shadows -->
+        <section class="card display-flex column-align plot chart" id="tecnology-vs-project">
+            <span class="card-plot__title">Technology vs Projects</span>
+            <div class="card-plot">
+                <!--Image Tag-->
+                <canvas id="project-vs-tech-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Cards for Total number of projects, number of employees, billables, and shadows -->
+        <section class="card display-flex column-align plot chart" id="project-vs-resources">
+            <span class="card-plot__title">Projects vs Resources</span>
+            <div class="card-plot">
+                <!--Image Tag-->
+                <canvas id="resource-vs-project-chart"></canvas>
+            </div>
+        </section>
+
+    </main>
+    <!-- Main content ends-->
+
+</body>
+
+</html>
