@@ -37,6 +37,7 @@ function apiCall() {
       // offlineReports = sample
       offlineReports = reports
       statusTabLoader()
+      statusHistoryLoader()  // This function is written way below. Check the content list.
     }
   })
 }
@@ -49,8 +50,6 @@ function statusTabLoader() {
     activitiesDropDown()
     setDate()
     document.querySelector('#hours-worked').value = null
-
-    console.log(offlineReports)
   }
   else {
     console.log('No report')
@@ -108,6 +107,7 @@ projectCards.forEach((card) => {
   card.addEventListener('click', () => {
     resetAllErrors()
     statusTabLoader()
+    statusHistoryLoader()
   })
 })
 
@@ -197,6 +197,37 @@ function resetAllErrors() {
     error.style.visibility = 'hidden'
   })
 }
+/*--------------------------------------------------------------*/ 
+function statusHistoryLoader(){
+  let selectedProjectId = document.querySelector('.selection').dataset['projectid']
+  let currResources = latestOfflineResources[selectedProjectId]
+  if(currResources){
+    let sorter = document.querySelector('#sort-status')
+    sorter.innerHTML= ''
+    let allOption = document.createElement('option')
+    allOption.value = 'All'
+    allOption.innerHTML = 'All'
+    sorter.appendChild(allOption)
+
+    currResources.forEach((res)=>{
+      let option = document.createElement('option')
+      option.value = res.name
+      option.innerHTML = res.name
+      sorter.appendChild(option)
+    })
+
+    loadHistory(selectedProjectId)
+  }
+}
+
+function loadHistory(id,resourceSelector = 'Null'){
+  let reports = offlineReports.filter((report)=> report.project_id == id )
+  if(resourceSelector != 'Null'){
+    reports = reports.filter((report) => report.resources === resourceSelector)
+  }
+
+  console.log(reports)
+}
 
 /*---------------- Upload data to server -------------------------*/
 function putToServer(activityField, resourceField, dateField, hoursField) {
@@ -231,3 +262,4 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     console.log(res)
   })
 }
+

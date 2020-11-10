@@ -619,8 +619,10 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
 .set-details{
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 98%;
     margin-bottom: 20px;
+    border: 1px dashed  #9bb9ca;
+    padding: 20px 10px;
 }
 
 .set-details > div{
@@ -647,7 +649,8 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     padding: 7px 0;
 }
 
-.set-details option{
+.set-details option,
+#sort-status option{
     color: #000;
 }
 
@@ -658,7 +661,6 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     background-color: #9bb9ca;
     border: none;
     outline: none;
-    margin-top: 20px;
     transition: all 0.2s ease;
 }
 
@@ -676,6 +678,11 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     margin-top: 10px;
 }
 
+/*---------------------------------*/
+.status-history-header{
+    display: flex;
+    justify-content: space-between;
+}
 
 .report-history{
     margin-top: 20px;
@@ -689,6 +696,15 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     border: 1px solid #9bb9ca;
 }
 
+#sort-status{
+    border: none;
+    background-color: #9bb9ca;
+    outline: none;
+    padding: 5px;
+    color: #000;
+    border-radius: 2px;
+}
+
 .test{
     padding: 20px;
     background-color: #000;
@@ -697,21 +713,46 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
 
 .old-report{
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     width: 100%;
     background-color: #9bb9ca;
-    padding: 5px 0;
+    padding: 15px 0;
+    border-radius: 2px;
+}
+
+.report-details{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+.report-details p{
+    font-weight: 600;
+}
+/* .report-details >p{
+    margin-right: 20px;
+} */
+
+.posted-on{
+    margin-left: 10px;
+    width: 10%;
+    height: 99%;
+    border-right: 1px solid #000;
+}
+
+.posted-on p{
+    font-weight: 500;
+}
+
+.date{
+    margin-left: 10px;
 }
 
 .old-report p{
     color: #000;
 }
 
-.activity{
+.resource-name{
     margin-right: 10px;
-}
-.date{
-    margin-left: 10px;
 }
 
 /*................................................
