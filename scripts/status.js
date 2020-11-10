@@ -216,7 +216,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
 
   if (sameReport) {
     let mainError = document.querySelector('.main-error')
-    mainError.innerHTML = "Error"
+    mainError.innerHTML = "This report has already been submitted"
     mainError.style.visibility = 'visible'
   }
   else {
@@ -227,7 +227,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
   }
 
   console.log(offlineReports)
-  put(urlList.statusReport,secretKey,offlineReports,(res)=>{
+  put(urlList.statusReport, secretKey, offlineReports, (res) => {
     console.log(res)
   })
 }

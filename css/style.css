@@ -658,6 +658,7 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
     background-color: #9bb9ca;
     border: none;
     outline: none;
+    margin-top: 20px;
     transition: all 0.2s ease;
 }
 
@@ -668,6 +669,11 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
 
 .status-error {
     visibility: hidden;
+    color: #de2727;
+}
+.main-error{
+    text-align: center;
+    margin-top: 10px;
 }
 
 
