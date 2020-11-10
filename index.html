@@ -235,6 +235,7 @@
                         <span class="project-headings--details" id="project-headings--details"> Details</span>
                         <span class="project-headings--resources" id="project-headings--resources"> Resources </span>
                         <span class="project-headings--invoice" id="project-headings--invoice"> Invoice </span>
+                        <span class="project-headings--status" id="project-headings--status"> Status </span>
                     </div>
 
                     <!-- Pencil edit icon -->
@@ -341,6 +342,58 @@
                         </div>
                     </div>
                     <!-- Invoice Details Tab Ends -->
+
+                    <!-- Status report tab -->
+                    <div class="status" id="status">
+
+                        <div class="set-details">
+                            <div class="resource-group">
+                                <label> Resources </label>
+                                <select name="Resources" id="resources-dropdown">
+                                    <option value="resource1">Resource 1</option>
+                                    <option value="resource2">Resource 2</option>
+                                    <option value="resource3">Resource 3</option>
+                                </select>
+                            </div>
+
+                            <div class="date-select-group">
+                                <label for="Status Date"> Date </label>
+                                <input type="date" id="status-date">
+                                <p class="status-error status-date-error">Error</p>
+                            </div>
+
+                            <div class="hours-group">
+                                <label for="Hours"> Hours </label>
+                                <input type="number" id="hours-worked">
+                                <p class="status-error hours-worked-error">Error</p>
+                            </div>
+
+                            <div class="activity-group">
+                                <label> Activity </label>
+                                <select name="Activity" id="activity-dropdown">
+                                    <option value="activity1">Activity 1</option>
+                                    <option value="activity2">Activity 2</option>
+                                    <option value="activity3">Activity 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="status-submit">Submit</button>
+
+                        <div class="report-history">
+                            <p class="history-heading">Status History</p>
+                            <hr id="report-history-hr">
+
+                            <div class="old-report">
+                                <p class="date">2020-12-12</p>
+                                <p class="hours">16 hours</p>
+                                <p class="resource-name">Thejus</p>
+                                <p class="activity">Coding</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Status report tab ends -->
 
                 </div>
             </div>

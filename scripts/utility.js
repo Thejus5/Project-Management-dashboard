@@ -1,10 +1,14 @@
 // Urls of remote data storage bin and secret key to access the data.
 const urlList = {
-    "projects": "https://api.jsonbin.io/b/5f9fab6347077d298f5b955e",
-    "resources": "https://api.jsonbin.io/b/5f9fabb447077d298f5b9576"
+    //"projects": "https://api.jsonbin.io/b/5f9fab6347077d298f5b955e", // Old
+    "projects":"https://api.jsonbin.io/b/5faa45da48818715939e953e",
+    "resources":"https://api.jsonbin.io/b/5faa457abd01877eecdc148e",
+    "statusReport":"https://api.jsonbin.io/b/5faa46822769cc5b06ada086"
+    // "resources": "https://api.jsonbin.io/b/5f9fabb447077d298f5b9576" // Old 
 }
 
-const secretKey = "$2b$10$13A5uhCyWMeIqOInL3bdeuAlJSI2Nx5J2h2HciLIGw1nb6Xm/NwRe";
+// const secretKey = "$2b$10$13A5uhCyWMeIqOInL3bdeuAlJSI2Nx5J2h2HciLIGw1nb6Xm/NwRe"; // Old
+const secretKey = "$2b$10$1KZ6VDOn5QBsDQ6Fk2BGdeDrxrbQVt6vqpDTnFlM5xykGvBmx7hkC"
 
 let get = function (url, secretKey, callback) {
     let req = new XMLHttpRequest();

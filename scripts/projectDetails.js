@@ -247,6 +247,7 @@ invoiceGenerateButton.addEventListener('click', generateInvoice);
 const detailsTab = document.getElementById("project-headings--details"),
     resourceTab = document.getElementById("project-headings--resources"),
     invoiceTab = document.getElementById("project-headings--invoice"),
+    statusTab = document.querySelector('#project-headings--status'),
     resourceBody = document.getElementById("resource"),
     invoiceBody = document.getElementById("invoice"),
     projectList = document.getElementById("project-list")
@@ -261,19 +262,22 @@ function calculateHeight(tab, limit, height) {
 function setHeight (){
     const tabHeight = document.getElementById("project-details-tab").clientHeight,
         resourceBody = document.getElementById("resource"),
-        invoiceBody = document.getElementById("invoice")
+        invoiceBody = document.getElementById("invoice"),
+        statusBody = document.getElementById("status")
     calculateHeight(resourceBody, "minimum", tabHeight)
     calculateHeight(invoiceBody, "minimum", tabHeight)
+    calculateHeight(statusBody, "minimum", tabHeight)
 }
 
 
 // Highlight tab on select
 function setVisibility(id, propertyValue) {
 
-    headingId = ["project-details-tab", "resource", "invoice"];
+    headingId = ["project-details-tab", "resource", "invoice","status"];
     const detailsTab = document.getElementById("project-headings--details"),
         resourceTab = document.getElementById("project-headings--resources"),
-        invoiceTab = document.getElementById("project-headings--invoice")
+        invoiceTab = document.getElementById("project-headings--invoice"),
+        statusTab = document.querySelector('#project-headings--status')
     let currentTab = document.getElementById(id);
     currentTab.style.display = propertyValue;
 
@@ -286,6 +290,7 @@ function setVisibility(id, propertyValue) {
         if (currentTab.id.toLowerCase().includes("detail")) { detailsTab.style.borderBottom = "none" }
         if (currentTab.id.toLowerCase().includes("resource")) { resourceTab.style.borderBottom = "none"}
         if (currentTab.id.toLowerCase().includes("invoice")) { invoiceTab.style.borderBottom = "none" }
+        if (currentTab.id.toLowerCase().includes("status")) { statusTab.style.borderBottom = "none" }
     })
 }
 
@@ -315,6 +320,12 @@ invoiceTab.addEventListener('click', _ => {
     invoiceTab.style.borderBottom = "4px solid rgb(155, 185, 202)";
     document.getElementById("project-headings--edit").style.display = "none"
     setVisibility("invoice", "flex")
+})
+
+statusTab.addEventListener('click',()=>{
+    statusTab.style.borderBottom = "4px solid rgb(155, 185, 202)";
+    document.getElementById("project-headings--edit").style.display = "none"
+    setVisibility("status", "flex")
 })
 
 

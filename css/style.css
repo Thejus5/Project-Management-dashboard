@@ -443,6 +443,7 @@ a {text-decoration: none;}
 .project-headings--details,
 .project-headings--resources,
 .project-headings--invoice,
+.project-headings--status,
 .project-headings--edit {
     background-color: var(--secondary-color);
     border-top: 1px solid  var(--secondary-color);
@@ -459,7 +460,8 @@ a {text-decoration: none;}
 
 .project-headings--details,
 .project-headings--resources,
-.project-headings--invoice {flex: 1;}
+.project-headings--invoice,
+.project-headings--status {flex: 1;}
 
 .project-headings--details {border-bottom: 4px solid var(--font-color);}
 .project-headings--edit{margin-right: 0;}
@@ -608,9 +610,102 @@ th, td { border-bottom: 0.1px solid var(--font-color);padding: 5px ;}
 .table-icons {height: 1.3rem; cursor: pointer;}
 .margin-right10 {margin: 0 10px 0 0;}
 .display-on-invoice-generate {display: none;}
+/*................................................
+    6. Status Report tab
+.................................................*/
+ #status{
+    flex-direction: column;
+}
+.set-details{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.set-details > div{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.set-details input,
+.set-details select{
+    border: none;
+    background-color: #9bb9ca;
+    outline: none;
+    padding: 5px;
+    color: #000;
+    border-radius: 2px;
+    width: 100%;
+}
+
+#hours-worked{
+    padding: 6px 0;
+}
+.set-details select{
+    padding: 7px 0;
+}
+
+.set-details option{
+    color: #000;
+}
+
+.status-submit{
+    width: fit-content;
+    padding: 8px 10px !important;  /* Need to overwrite default button styling*/
+    margin: 0 auto;
+    background-color: #9bb9ca;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.status-submit:hover{
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.5);
+    transform: scale(1.03);
+} 
+
+
+.report-history{
+    margin-top: 20px;
+}
+
+.history-heading{
+    color: #fff;
+    font-weight: 500;
+}
+#report-history-hr{
+    border: 1px solid #9bb9ca;
+}
+
+.test{
+    padding: 20px;
+    background-color: #000;
+    margin: 10px 5px;
+}
+
+.old-report{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #9bb9ca;
+    padding: 5px 0;
+}
+
+.old-report p{
+    color: #000;
+}
+
+.activity{
+    margin-right: 10px;
+}
+.date{
+    margin-left: 10px;
+}
 
 /*................................................
-    6. FOOTER SECTION
+    7. FOOTER SECTION
 .................................................*/
 
 .footer {
