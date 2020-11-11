@@ -94,14 +94,18 @@ function activitiesDropDown() {
 
 /*---------------- Set current date --------------------------------*/
 function setDate() {
-  let day = new Date().getDate().toString()
-  let month = (new Date().getMonth() + 1).toString()
-  let year = new Date().getFullYear().toString()
+  const dateSelector = document.querySelector('#status-date')
+  const dayLimit = 7
+  dateSelector.innerHTML = ''
+  let previousDay = new Date(today)
 
-  if (day.length < 2) day = `0${day}`
-  if (month.length < 2) month = `0${month}`
-
-  document.querySelector('#status-date').value = `${year}-${month}-${day}`
+  for (let i = 0; i < dayLimit; i++) {
+    previousDay.setDate(today.getDate()-i)
+    let option = document.createElement('option')
+    option.value = `${previousDay.getFullYear()}-${previousDay.getMonth() + 1}-${previousDay.getDate()}`
+    option.textContent = `${previousDay.getFullYear()}-${previousDay.getMonth() + 1}-${previousDay.getDate()}`
+    dateSelector.appendChild(option)
+  }
 }
 
 // Make the API call
@@ -153,26 +157,7 @@ function validate(resource, date, hour) {
     clearError(resource)
   }
 
-  validateDate(date)
   validateHours(hour)
-}
-
-// Date validation
-function validateDate(dateField) {
-  const inputDate = new Date(dateField.value)
-  const curDate = new Date()
-  let difference = inputDate.getTime() - curDate.getTime()
-  const eightDayMilliseconds = 691200000  // Total milliseconds in 8 days
-
-  if (difference < -eightDayMilliseconds) { // Difference of 8 days
-    setError(dateField, 'Date should be within 7 days.')
-  }
-  else if (inputDate.getTime() > curDate.getTime()) { // Future dates
-    setError(dateField, 'Future status cannot be entered.')
-  }
-  else {
-    clearError(dateField)
-  }
 }
 
 // Working hours validation
