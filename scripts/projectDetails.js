@@ -7,7 +7,7 @@ let selectedProjectId;
 const fetchDashboardData = () => {
   get(urlList.projects, secretKey, storeProjectData);
   get(urlList.resources, secretKey, storeResourceData);
-  get(urlList.statusReport,secretKey,(res)=>{
+  get(urlList.statusReport, secretKey, (res) => {
     offlineReports = res
   })
 
@@ -380,13 +380,13 @@ document.querySelector(".project-list__body").addEventListener('click', _ => {
   if (window.outerWidth < 630) collapseContent()
 })
 
-function loadBurnedHours(){
+function loadBurnedHours() {
   const selectedId = document.querySelector('.selection').dataset['projectid']
   let filteredReport = offlineReports.filter((report) => report.project_id == selectedId)
   const container = document.querySelector('.burned-hours-box')
   container.innerHTML = ''
-  if(filteredReport.length>0){
-    let totalHours = filteredReport.reduce((acc,cur) => acc+cur.hours, 0)
+  if (filteredReport.length > 0) {
+    let totalHours = filteredReport.reduce((acc, cur) => acc + cur.hours, 0)
     const totalText = document.createElement('p')
     totalText.className = 'total-hours-text'
     totalText.innerHTML = 'Total hours burned:'
@@ -408,26 +408,26 @@ function loadBurnedHours(){
     perResourceBox.className = 'per-resource'
     container.appendChild(perResourceBox)
 
-    loadPerResourceHours(filteredReport,perResourceBox)
+    loadPerResourceHours(filteredReport, perResourceBox)
   }
-  else{
-    container.innerHTML= 'No Reports Available'
+  else {
+    container.innerHTML = 'No Reports Available'
   }
 }
 
-function loadPerResourceHours(reports,container){
+function loadPerResourceHours(reports, container) {
   let perResourceData = {}
 
-  reports.forEach((report) =>{
-    if(Object.keys(perResourceData).includes(report.resources)){
+  reports.forEach((report) => {
+    if (Object.keys(perResourceData).includes(report.resources)) {
       perResourceData[report.resources] += report.hours
     }
-    else{
+    else {
       perResourceData[report.resources] = report.hours
     }
   })
 
-  Object.keys(perResourceData).forEach((key)=>{
+  Object.keys(perResourceData).forEach((key) => {
     let textBox = document.createElement('p')
     textBox.className = 'resource-name-box'
     textBox.innerHTML = key
