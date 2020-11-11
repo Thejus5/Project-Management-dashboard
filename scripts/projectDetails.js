@@ -305,12 +305,15 @@ function displayDetailsTab() {
   detailsTab.style.borderBottom = "4px solid rgb(155, 185, 202)"
   document.getElementById("project-headings--edit").style.display = "block"
   setVisibility("project-details-tab", "block")
+
+  loadBurnedHours()
 }
 
 detailsTab.addEventListener('click', _ => {
   detailsTab.style.borderBottom = "4px solid rgb(155, 185, 202)";
   document.getElementById("project-headings--edit").style.display = "block"
   setVisibility("project-details-tab", "block")
+  loadBurnedHours()
 });
 
 resourceTab.addEventListener('click', _ => {
@@ -376,3 +379,66 @@ expandOrCollapse.addEventListener('click', _ => {
 document.querySelector(".project-list__body").addEventListener('click', _ => {
   if (window.outerWidth < 630) collapseContent()
 })
+
+function loadBurnedHours(){
+  const selectedId = document.querySelector('.selection').dataset['projectid']
+  let filteredReport = offlineReports.filter((report) => report.project_id == selectedId)
+  const container = document.querySelector('.burned-hours-box')
+  container.innerHTML = ''
+  if(filteredReport.length>0){
+    let totalHours = filteredReport.reduce((acc,cur) => acc+cur.hours, 0)
+    const totalText = document.createElement('p')
+    totalText.className = 'total-hours-text'
+    totalText.innerHTML = 'Total hours burned:'
+
+    const totalHourValue = document.createElement('span')
+    totalHourValue.className = 'total-hours'
+    totalHourValue.textContent = `${totalHours} hour(s)`
+
+    totalText.appendChild(totalHourValue)
+
+    const perResourceHead = document.createElement('p')
+    perResourceHead.className = 'resource-hour-text'
+    perResourceHead.textContent = 'Hours per resource:'
+
+    container.appendChild(totalText)
+    container.appendChild(perResourceHead)
+
+    let perResourceBox = document.createElement('div')
+    perResourceBox.className = 'per-resource'
+    container.appendChild(perResourceBox)
+
+    loadPerResourceHours(filteredReport,perResourceBox)
+  }
+  else{
+    container.innerHTML= 'No Reports Available'
+  }
+}
+
+function loadPerResourceHours(reports,container){
+  let perResourceData = {}
+
+  reports.forEach((report) =>{
+    if(Object.keys(perResourceData).includes(report.resources)){
+      perResourceData[report.resources] += report.hours
+    }
+    else{
+      perResourceData[report.resources] = report.hours
+    }
+  })
+
+  Object.keys(perResourceData).forEach((key)=>{
+    let textBox = document.createElement('p')
+    textBox.className = 'resource-name-box'
+    textBox.innerHTML = key
+
+    let resourceHours = document.createElement('span')
+    resourceHours.className = 'resource-hours'
+    resourceHours.textContent = `${perResourceData[key]} hour(s)`
+    textBox.appendChild(resourceHours)
+
+    container.appendChild(textBox)
+  })
+
+  console.log(perResourceData)
+}
