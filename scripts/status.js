@@ -12,18 +12,25 @@
     7. Event Listeners
         i. For Project Cards
         ii. For Submit Button.
+        iii. Status sort dropdown.
     8. Field validations.
         i. Date validation.
         ii. Working hours validation.
-    9. Upload data to server.
+    9. Load status history.
+    10. Upload data to server.
 ----------------------------------------------------------------*/
 
 /*---------------- Global variables -----------------------------*/
 let activitiesList = ['Coding', 'Training', 'Marketing']
+const today = new Date()
+const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+
+console.log(formattedToday)
 let sample = [
   {
     project_id: -1,
     date: "2020-11-10",
+    posted_date: formattedToday,
     resources: "Haripriya",
     activities: "Coding",
     hours: 15
@@ -128,6 +135,13 @@ btn.addEventListener('click', () => {
   }
 })
 
+// For status report sort (dropdown)
+let sorterDropDown = document.querySelector('#sort-status')
+sorterDropDown.onchange = () => {
+  let selectedProjectId = document.querySelector('.selection').dataset['projectid']
+  loadHistory(selectedProjectId, sorterDropDown.value)
+}
+
 
 /*---------------- Field validations --------------------------------*/
 function validate(resource, date, hour) {
@@ -197,19 +211,20 @@ function resetAllErrors() {
     error.style.visibility = 'hidden'
   })
 }
-/*--------------------------------------------------------------*/ 
-function statusHistoryLoader(){
+
+/*---------------- Load status history ---------------------------*/
+function statusHistoryLoader() {
   let selectedProjectId = document.querySelector('.selection').dataset['projectid']
   let currResources = latestOfflineResources[selectedProjectId]
-  if(currResources){
+  if (currResources) {
     let sorter = document.querySelector('#sort-status')
-    sorter.innerHTML= ''
+    sorter.innerHTML = ''
     let allOption = document.createElement('option')
     allOption.value = 'All'
     allOption.innerHTML = 'All'
     sorter.appendChild(allOption)
 
-    currResources.forEach((res)=>{
+    currResources.forEach((res) => {
       let option = document.createElement('option')
       option.value = res.name
       option.innerHTML = res.name
@@ -220,14 +235,67 @@ function statusHistoryLoader(){
   }
 }
 
-function loadHistory(id,resourceSelector = 'Null'){
-  let reports = offlineReports.filter((report)=> report.project_id == id )
-  if(resourceSelector != 'Null'){
+function loadHistory(id, resourceSelector = 'All') {
+  let reports = offlineReports.filter((report) => report.project_id == id)
+  if (resourceSelector != 'All') {
     reports = reports.filter((report) => report.resources === resourceSelector)
   }
 
-  console.log(reports)
+  // Sorting filtered report by date
+  let sortedReports = reports.sort((a, b) => (new Date(a.date).getTime() > new Date(b.date).getTime()) ? -1 : ((new Date(a.date).getTime() < new Date(b.date).getTime()) ? 1 : 0))
+
+  let container = document.querySelector('.status-report-container')
+  container.innerHTML = ''
+
+  sortedReports.forEach((report) => {
+    const oldReports = generateStatusCard(report)
+    container.appendChild(oldReports)
+  })
+
 }
+
+// Returns the card that can be appended to container
+function generateStatusCard(report) {
+  const oldReports = document.createElement('div')
+  oldReports.className = 'old-report'
+
+  const postedDateBox = document.createElement('div')
+  postedDateBox.className = 'posted-on'
+
+  const postedHead = document.createElement('p')
+  postedHead.innerHTML = 'Posted On:'
+  postedDateBox.appendChild(postedHead)
+
+  const thisDay = document.createElement('p')
+  thisDay.className = 'current-date'
+  thisDay.innerHTML = report.posted_date
+  postedDateBox.appendChild(thisDay)
+
+  const detailsBox = document.createElement('div')
+  detailsBox.className = 'report-details'
+
+  const date = document.createElement('p')
+  date.className = 'date'
+  date.innerHTML = report.date
+  detailsBox.appendChild(date)
+
+  const hours = document.createElement('p')
+  hours.className = 'hours'
+  hours.innerHTML = `${report.hours} hour(s) of ${report.activities}`
+  detailsBox.appendChild(hours)
+
+  const resource = document.createElement('p')
+  resource.className = 'resource-name'
+  resource.innerHTML = report.resources
+  detailsBox.appendChild(resource)
+
+  oldReports.appendChild(postedDateBox)
+  oldReports.appendChild(detailsBox)
+
+  return oldReports
+}
+
+
 
 /*---------------- Upload data to server -------------------------*/
 function putToServer(activityField, resourceField, dateField, hoursField) {
@@ -237,6 +305,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
   const newReport = {
     project_id: parseInt(selectedProjectId),
     date: dateField.value,
+    posted_date: formattedToday,
     resources: resourceField.value,
     activities: activityField.value,
     hours: parseInt(hoursField.value)
@@ -255,11 +324,14 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     let mainError = document.querySelector('.main-error')
     mainError.innerHTML = ""
     mainError.style.visibility = 'hidden'
+
+    loadHistory(selectedProjectId)
+    put(urlList.statusReport, secretKey, offlineReports, (res) => {
+      console.log(res)
+    })
   }
 
   console.log(offlineReports)
-  put(urlList.statusReport, secretKey, offlineReports, (res) => {
-    console.log(res)
-  })
+
 }
 
