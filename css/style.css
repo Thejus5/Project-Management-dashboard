@@ -478,7 +478,8 @@ a {text-decoration: none;}
 
 .main-details,
 .project-technology,
-.project-description {
+.project-description,
+.burned-hours-box {
     padding: 15px; 
     border: 0.1px dotted var(--font-color);
     border-radius: 6px;
@@ -550,6 +551,24 @@ input[type=range]::-moz-range-thumb {
     background: var(--secondary-color);
 }
 
+.total-hours-text,
+.resource-hour-text{
+    font-weight: 600;
+}
+
+.total-hours-text{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #9bb9ca;
+}
+
+.resource-hour-text{
+    margin-bottom: 5px;
+}
+
+.resource-hours,
+.total-hours{
+    margin-left: 10px;
+}
 
 /* 5.4. RESOURCES SECTION */
 

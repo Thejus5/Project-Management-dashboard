@@ -314,9 +314,11 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     put(urlList.statusReport, secretKey, offlineReports, (res) => {
       console.log(res)
     })
+
+    console.log(offlineReports)
   }
 
-  console.log(offlineReports)
+  
 
 }
 

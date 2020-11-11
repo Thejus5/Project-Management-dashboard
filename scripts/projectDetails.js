@@ -7,6 +7,9 @@ let selectedProjectId;
 const fetchDashboardData = () => {
   get(urlList.projects, secretKey, storeProjectData);
   get(urlList.resources, secretKey, storeResourceData);
+  get(urlList.statusReport,secretKey,(res)=>{
+    offlineReports = res
+  })
 
   selectedProjectId = projects.projectList.length - 1;
   loadProjectList();
