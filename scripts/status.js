@@ -21,7 +21,8 @@
 ----------------------------------------------------------------*/
 
 /*---------------- Global variables -----------------------------*/
-let activitiesList = ['Coding', 'Training', 'Marketing']
+let activitiesList = ['Coding', 'Training', 'Marketing', 'Project Management', 'Training', 'Architecting',
+  'Requirement analysis', 'System design', 'Graphic design', 'Testing', 'HTML/CSS', 'Pre-sales', 'Tech support', 'UX design', 'Marketing', 'Business analysis', 'Recruitment & HR', 'Other']
 const today = new Date()
 const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
@@ -100,7 +101,7 @@ function setDate() {
   let previousDay = new Date(today)
 
   for (let i = 0; i < dayLimit; i++) {
-    previousDay.setDate(today.getDate()-i)
+    previousDay.setDate(today.getDate() - i)
     let option = document.createElement('option')
     option.value = `${previousDay.getFullYear()}-${previousDay.getMonth() + 1}-${previousDay.getDate()}`
     option.textContent = `${previousDay.getFullYear()}-${previousDay.getMonth() + 1}-${previousDay.getDate()}`
@@ -112,6 +113,12 @@ function setDate() {
 apiCall()
 
 /*---------------- Event Listeners ---------------------------------*/
+const statusTabButton = document.querySelector('#project-headings--status')
+statusTabButton.addEventListener('click', () => {
+  statusTabLoader()
+  statusHistoryLoader()
+})
+
 // For Project Cards
 let projectCards = document.querySelectorAll('.project-list__item')
 projectCards.forEach((card) => {
@@ -318,7 +325,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     console.log(offlineReports)
   }
 
-  
+
 
 }
 
