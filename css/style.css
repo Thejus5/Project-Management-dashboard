@@ -551,24 +551,43 @@ input[type=range]::-moz-range-thumb {
     background: var(--secondary-color);
 }
 
+/* Hours burned */
+
 .total-hours-text,
 .resource-hour-text{
     font-weight: 600;
 }
 
-.total-hours-text{
-    margin-bottom: 10px;
-    border-bottom: 1px solid #9bb9ca;
+.progress-bar-box{
+    margin-top: 10px;
 }
 
-.resource-hour-text{
-    margin-bottom: 5px;
+.resource-name{
+    margin-top: 5px;
 }
 
-.resource-hours,
-.total-hours{
+.progress-indicator{
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar-holder{
+    width: 50%;
+    height: 10px;
+    border: 1px solid #9bb9ca;
+    border-radius: 2px;
+}
+
+.fill-bar{
+    height: 100%;
+    /* width: 50%; */
+    background-color: #9bb9ca;
+}
+
+.hours-per-resource{
     margin-left: 10px;
 }
+
 
 /* 5.4. RESOURCES SECTION */
 
