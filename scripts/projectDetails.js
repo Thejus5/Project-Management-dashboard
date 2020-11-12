@@ -389,33 +389,27 @@ function loadBurnedHours() {
     let totalHours = filteredReport.reduce((acc, cur) => acc + cur.hours, 0)
     const totalText = document.createElement('p')
     totalText.className = 'total-hours-text'
-    totalText.innerHTML = 'Total hours burned:'
+    totalText.innerHTML = `Total hours burned: `
 
     const totalHourValue = document.createElement('span')
     totalHourValue.className = 'total-hours'
-    totalHourValue.textContent = `${totalHours} hour(s)`
+    totalHourValue.textContent = `${totalHours}`
 
     totalText.appendChild(totalHourValue)
-
-    const perResourceHead = document.createElement('p')
-    perResourceHead.className = 'resource-hour-text'
-    perResourceHead.textContent = 'Hours per resource:'
-
     container.appendChild(totalText)
-    container.appendChild(perResourceHead)
 
     let perResourceBox = document.createElement('div')
-    perResourceBox.className = 'per-resource'
+    perResourceBox.className = 'progress-bar-box'
     container.appendChild(perResourceBox)
 
-    loadPerResourceHours(filteredReport, perResourceBox)
+    loadPerResourceHours(filteredReport, perResourceBox,totalHours)
   }
   else {
     container.innerHTML = 'No Reports Available'
   }
 }
 
-function loadPerResourceHours(reports, container) {
+function loadPerResourceHours(reports, container, totalHours) {
   let perResourceData = {}
 
   reports.forEach((report) => {
@@ -428,16 +422,31 @@ function loadPerResourceHours(reports, container) {
   })
 
   Object.keys(perResourceData).forEach((key) => {
-    let textBox = document.createElement('p')
-    textBox.className = 'resource-name-box'
-    textBox.innerHTML = key
+    let percentageHour = (perResourceData[key] * 100)/totalHours
 
-    let resourceHours = document.createElement('span')
-    resourceHours.className = 'resource-hours'
-    resourceHours.textContent = `${perResourceData[key]} hour(s)`
-    textBox.appendChild(resourceHours)
+    let resourceName = document.createElement('p')
+    resourceName.className = 'resource-name'
+    resourceName.innerHTML = key
+    container.appendChild(resourceName)
 
-    container.appendChild(textBox)
+    let progressOverallBox = document.createElement('div')
+    progressOverallBox.className = 'progress-indicator'
+
+    let progressBar = document.createElement('div')
+    progressBar.className = 'progress-bar-holder'
+
+    let progressFill = document.createElement('div')
+    progressFill.className = 'fill-bar'
+    progressFill.style.width = `${percentageHour}%`
+    progressBar.appendChild(progressFill)
+    progressOverallBox.appendChild(progressBar)
+
+    let hoursText = document.createElement('p')
+    hoursText.className = 'hours-per-resource'
+    hoursText.innerHTML = `${perResourceData[key]} hour(s)`
+    progressOverallBox.appendChild(hoursText)
+
+    container.appendChild(progressOverallBox)
   })
 
   console.log(perResourceData)
