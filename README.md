@@ -1,6 +1,6 @@
 # ProjectManager
 ## Project Managemet System
-#### Authors: Ann Susan Baiju, J. Haripriya
+> Authors: Ann Susan Baiju, J. Haripriya, Thejus
 
 A project management system with the following pages:<br>
 1. Dashboard: Dashboard page shows project management related statistics and data visualizations.<br> 
