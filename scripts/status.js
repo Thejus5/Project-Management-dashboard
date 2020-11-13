@@ -309,7 +309,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
   }
 
   // Check whether the same report is already there in database
-  let sameReport = offlineReports.find((report) => (report.project_id === newReport.project_id && report.date === newReport.date && report.resources === newReport.resources))
+  let sameReport = offlineReports.find((report) => (report.project_id === newReport.project_id && report.date === newReport.date && report.resources === newReport.resources && report.activities === newReport.activities))
 
   const mainError = document.querySelector('.main-error')
   if (sameReport) {
@@ -317,16 +317,24 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     mainError.style.visibility = 'visible'
   }
   else {
-    offlineReports.push(newReport)
-    mainError.innerHTML = ""
-    mainError.style.visibility = 'hidden'
+    let previousTotalTime = offlineReports.filter((reports) => (reports.project_id === newReport.project_id && reports.resources === newReport.resources && reports.date === newReport.date)).reduce((acc, cur) => acc + cur.hours, 0)
+    console.log(offlineReports.filter((reports) => (reports.project_id === newReport.project_id && reports.resources === newReport.resources)))
+    if ((previousTotalTime + newReport.hours) > 16) {
+      mainError.innerHTML = "This resource has exceeded the per day time limit"
+      mainError.style.visibility = 'visible'
+    }
+    else {
+      offlineReports.push(newReport)
+      mainError.innerHTML = ""
+      mainError.style.visibility = 'hidden'
 
-    loadHistory(selectedProjectId)
-    put(urlList.statusReport, secretKey, offlineReports, (res) => {
-      successResponse(mainError)
-      console.log(res)
-    })
-    // console.log(offlineReports)
+      loadHistory(selectedProjectId)
+      put(urlList.statusReport, secretKey, offlineReports, (res) => {
+        successResponse(mainError)
+        console.log(res)
+      })
+      console.log(offlineReports)
+    }
   }
 }
 
