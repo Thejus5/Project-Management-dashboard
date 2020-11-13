@@ -18,15 +18,17 @@
         ii. Working hours validation.
     9. Load status history.
     10. Upload data to server.
+    11. Success message on adding status report.
 ----------------------------------------------------------------*/
 
 /*---------------- Global variables -----------------------------*/
-let activitiesList = ['Coding', 'Training', 'Marketing', 'Project Management', 'Training', 'Architecting',
+const activitiesList = ['Coding', 'Training', 'Marketing', 'Project Management', 'Training', 'Architecting',
   'Requirement analysis', 'System design', 'Graphic design', 'Testing', 'HTML/CSS', 'Pre-sales', 'Tech support', 'UX design', 'Marketing', 'Business analysis', 'Recruitment & HR', 'Other']
+
 const today = new Date()
 const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
-console.log(formattedToday)
+// This is used to reset the status reports data in server and offline
 let sample = [
   {
     project_id: -1,
@@ -115,6 +117,7 @@ apiCall()
 /*---------------- Event Listeners ---------------------------------*/
 const statusTabButton = document.querySelector('#project-headings--status')
 statusTabButton.addEventListener('click', () => {
+  resetAllErrors()
   statusTabLoader()
   statusHistoryLoader()
 })
@@ -207,8 +210,10 @@ function resetAllErrors() {
 /*---------------- Load status history ---------------------------*/
 function statusHistoryLoader() {
   let selectedProjectId = document.querySelector('.selection').dataset['projectid']
-  let currResources = latestOfflineResources[selectedProjectId]
-  if (currResources) {
+  let reportedResources = [...new Set(offlineReports.filter((reports) => reports.project_id == selectedProjectId).reduce((acc, cur) => [...acc, cur.resources], []))]
+
+  // Create the sorting dropdown
+  if (reportedResources) {
     let sorter = document.querySelector('#sort-status')
     sorter.innerHTML = ''
     let allOption = document.createElement('option')
@@ -216,10 +221,10 @@ function statusHistoryLoader() {
     allOption.innerHTML = 'All'
     sorter.appendChild(allOption)
 
-    currResources.forEach((res) => {
+    reportedResources.forEach((report) => {
       let option = document.createElement('option')
-      option.value = res.name
-      option.innerHTML = res.name
+      option.value = report
+      option.innerHTML = report
       sorter.appendChild(option)
     })
 
@@ -306,26 +311,34 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
   // Check whether the same report is already there in database
   let sameReport = offlineReports.find((report) => (report.project_id === newReport.project_id && report.date === newReport.date && report.resources === newReport.resources))
 
+  const mainError = document.querySelector('.main-error')
   if (sameReport) {
-    let mainError = document.querySelector('.main-error')
     mainError.innerHTML = "This report has already been submitted"
     mainError.style.visibility = 'visible'
   }
   else {
     offlineReports.push(newReport)
-    let mainError = document.querySelector('.main-error')
     mainError.innerHTML = ""
     mainError.style.visibility = 'hidden'
 
     loadHistory(selectedProjectId)
     put(urlList.statusReport, secretKey, offlineReports, (res) => {
+      successResponse(mainError)
       console.log(res)
     })
-
-    console.log(offlineReports)
+    // console.log(offlineReports)
   }
+}
 
-
-
+/*---------------- Success message on adding status report -------*/
+function successResponse(textField) {
+  textField.innerHTML = "Report added successfully"
+  textField.style.color = '#31e657'
+  textField.style.visibility = 'visible'
+  setTimeout(() => {
+    textField.innerHTML = ""
+    textField.style.color = '#de2727'
+    textField.style.visibility = 'hidden'
+  }, 2000)
 }
 
