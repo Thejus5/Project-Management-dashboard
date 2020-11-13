@@ -402,7 +402,7 @@ function loadBurnedHours() {
     perResourceBox.className = 'progress-bar-box'
     container.appendChild(perResourceBox)
 
-    loadPerResourceHours(filteredReport, perResourceBox,totalHours)
+    loadPerResourceHours(filteredReport, perResourceBox, totalHours)
   }
   else {
     container.innerHTML = 'No Reports Available'
@@ -422,7 +422,7 @@ function loadPerResourceHours(reports, container, totalHours) {
   })
 
   Object.keys(perResourceData).forEach((key) => {
-    let percentageHour = (perResourceData[key] * 100)/totalHours
+    let percentageHour = (perResourceData[key] * 100) / totalHours
 
     let resourceName = document.createElement('p')
     resourceName.className = 'resource-name'
@@ -449,5 +449,4 @@ function loadPerResourceHours(reports, container, totalHours) {
     container.appendChild(progressOverallBox)
   })
 
-  console.log(perResourceData)
 }
