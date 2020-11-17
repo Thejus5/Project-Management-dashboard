@@ -19,27 +19,31 @@ function addOrUpdateProject(e) {
         formsContainer.style.display = "none";
 
         const projectDetails = {
-            projectId: addProjectFunctionality ? projects.projectList.length : Number(selectedProjectId),
-            projectName: projectName.value,
-            clientName: clientName.value,
-            projectManager: projectManager.value,
-            projectStatus: 'Open',
-            startDate: startDate.value,
-            endDate: endDate.value,
+            // projectId: addProjectFunctionality ? projects.projectList.length : Number(selectedProjectId),
+            name: projectName.value,
+            client: clientName.value,
+            manager: projectManager.value,
+            status: 'Open',
+            start_date: startDate.value,
+            end_date: endDate.value,
             progress: progress.value || 0,
-            technologies: technologies.value,
+            // technologies: technologies.value,
             description: description.value,
             technologies: technologies.value ? JSON.parse(technologies.value).map(tech => tech.value) : []
         }
 
         // If a new user-entered tag is not there in technologies array, add it to the array.
-        projectDetails.technologies.forEach(tech => {
-            if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
-        });
+        // projectDetails.technologies.forEach(tech => {
+        //     if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
+        // });
         if (addProjectFunctionality) {
             // Add new project.
-            projects.projectList.push(projectDetails);
-            selectedProjectId = projects.projectList.length - 1;
+            // projects.projectList.push(projectDetails);
+            // selectedProjectId = projects.projectList.length - 1;
+            postAPI('http://localhost:8080/projects',projectDetails,(res)=>{
+                console.log('Data Added')
+                document.location.reload()
+            })
         } else {
             // Update already existing project.
             selectedProjectId = Number(selectedProjectId);
@@ -47,14 +51,14 @@ function addOrUpdateProject(e) {
         }
 
         // Function call to update changes to remote storage bin.
-        put(urlList.projects, secretKey, projects, ()=>{
-            latestOfflineProjects = projects
-        });
-        tagify.removeAllTags();
-        addProjectFunctionality = true;
-        loadProjectList();
-        projectFormModal.style.display = "none";
-        formsContainer.style.display = "none";
+        // put(urlList.projects, secretKey, projects, ()=>{
+        //     latestOfflineProjects = projects
+        // });
+        // tagify.removeAllTags();
+        // addProjectFunctionality = true;
+        // loadProjectList();
+        // projectFormModal.style.display = "none";
+        // formsContainer.style.display = "none";
 
     } // Display error messages
     else {

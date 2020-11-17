@@ -22,5 +22,26 @@ let getApi = function (url, callback) {
 }
 
 
+let postAPI = function (url, body, callback) {
+  let xhrp = new XMLHttpRequest();
+  xhrp.onload = function () {
+    if (this.status === 200) {
+      try {
+        let responseArray = JSON.parse(this.responseText);
+        callback(responseArray)
+      }
+      catch {
+        console.warn('JSON not parsed 1')
+        callback('responseArray')
+      }
+    }
+    else {
+      console.warn('JSON not found 2')
+    }
+  }
 
+  xhrp.open('POST', url, true);
+  xhrp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xhrp.send(JSON.stringify(body));
+}
 
