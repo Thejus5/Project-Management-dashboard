@@ -1,3 +1,4 @@
+// import apis from './api.js'
 // Global variables to store data commonly accessed by multiple functions.
 let projects;
 let resources;
@@ -5,13 +6,15 @@ let selectedProjectId;
 
 // Fetches all dashboard data.
 const fetchDashboardData = () => {
-  get(urlList.projects, secretKey, storeProjectData);
+  // get(urlList.projects, secretKey, storeProjectData);
+  getApi('http://localhost:8080/projects',storeProjectData)
   get(urlList.resources, secretKey, storeResourceData);
   get(urlList.statusReport, secretKey, (res) => {
     offlineReports = res
   })
 
-  selectedProjectId = projects.projectList.length - 1;
+  // selectedProjectId = projects.projectList.length - 1;
+  
   loadProjectList();
 }
 
@@ -21,6 +24,7 @@ fetchDashboardData();
 function loadProjectList() {
   projectArray = projects.projectList.map(element => element);
   projectArray.reverse();
+  console.log(projectArray)
   if (projectArray.length) {
     const projectList = document.querySelector('#project-list');
     removeChildNodes(projectList);
