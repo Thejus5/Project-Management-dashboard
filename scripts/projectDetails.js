@@ -8,7 +8,8 @@ let selectedProjectId;
 const fetchDashboardData = () => {
   // get(urlList.projects, secretKey, storeProjectData);
   getApi('http://localhost:8080/projects',storeProjectData)
-  get(urlList.resources, secretKey, storeResourceData);
+  // get(urlList.resources, secretKey, storeResourceData);
+  getApi('http://localhost:8080/resources',storeResourceData)
   get(urlList.statusReport, secretKey, (res) => {
     offlineReports = res
   })
@@ -142,9 +143,11 @@ function loadResources() {
   const resourceTableBody = document.querySelector('#resource-table--body');
   removeChildNodes(resourceTableBody);
 
-  let resourceList = resources[selectedProjectId];
+  // let resourceList = resources[selectedProjectId];
+  let resourceList = resources.filter((resource) => resource.project_id == selectedProjectId);
   if (resourceList) {
-    resourceList.forEach((element, index) => {
+    resourceList.forEach((resource, index) => {
+      let {project_id,id,...element} = resource
       const tableRow = document.createElement('tr');
       for (const key in element) {
         let cell;
