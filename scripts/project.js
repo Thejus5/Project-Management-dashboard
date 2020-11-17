@@ -37,28 +37,18 @@ function addOrUpdateProject(e) {
         //     if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
         // });
         if (addProjectFunctionality) {
-            // Add new project.
-            // projects.projectList.push(projectDetails);
-            // selectedProjectId = projects.projectList.length - 1;
             postAPI('http://localhost:8080/projects',projectDetails,(res)=>{
                 console.log('Data Added')
                 document.location.reload()
             })
         } else {
-            // Update already existing project.
-            selectedProjectId = Number(selectedProjectId);
-            projects.projectList[selectedProjectId] = projectDetails;
+            putAPI(`http://localhost:8080/projects/${selectedProjectId}`,projectDetails,(res)=>{
+                console.log('Data updated')
+                setTimeout(()=>{
+                    document.location.reload(true)
+                },3000)
+            })
         }
-
-        // Function call to update changes to remote storage bin.
-        // put(urlList.projects, secretKey, projects, ()=>{
-        //     latestOfflineProjects = projects
-        // });
-        // tagify.removeAllTags();
-        // addProjectFunctionality = true;
-        // loadProjectList();
-        // projectFormModal.style.display = "none";
-        // formsContainer.style.display = "none";
 
     } // Display error messages
     else {
@@ -144,18 +134,18 @@ updateProject.addEventListener('click', function (e) {
     clientName.readOnly = true;
 
     // Identify currently active project and populate update form fields with existing values.
-    selectedProject = projects.projectList[selectedProjectId];
+    let selectedProject = projects.find((project)=> project.projectId == selectedProjectId);
     projectName.value = selectedProject.projectName;
     clientName.value = selectedProject.clientName;
     projectManager.value = selectedProject.projectManager;
     startDate.value = selectedProject.startDate;
     endDate.value = selectedProject.endDate;
-    technologies.value = selectedProject.technologies.join(',');
+    // technologies.value = selectedProject.technologies.join(',');
     progress.value = selectedProject.progress;
     progressLabel.innerText = selectedProject.progress;
     description.value = selectedProject.description;
 
-    tagify.addTags(selectedProject.technologies);
+    tagify.addTags(JSON.parse(selectedProject.technologies));
 })
 
 function clearProjectErrorMessages () {

@@ -16,6 +16,7 @@ const fetchDashboardData = () => {
 
   // selectedProjectId = projects.projectList.length - 1;
   selectedProjectId = projects[projects.length-1].projectId
+  console.log(projects)
   
   loadProjectList();
 }
