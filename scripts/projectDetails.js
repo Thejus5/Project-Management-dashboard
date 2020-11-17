@@ -14,6 +14,7 @@ const fetchDashboardData = () => {
   })
 
   // selectedProjectId = projects.projectList.length - 1;
+  selectedProjectId = projects.length
   
   loadProjectList();
 }
@@ -22,9 +23,9 @@ fetchDashboardData();
 
 // Loads list of all projects - recently added will come first.
 function loadProjectList() {
-  projectArray = projects.projectList.map(element => element);
+  // projectArray = projects.projectList.map(element => element);
+   projectArray = projects.map(element => element);
   projectArray.reverse();
-  console.log(projectArray)
   if (projectArray.length) {
     const projectList = document.querySelector('#project-list');
     removeChildNodes(projectList);
@@ -93,7 +94,7 @@ function selectProject(newSelectedProjectId) {
 
 // Loads project details tab.
 function loadDetails() {
-  const selectedProject = projects.projectList[selectedProjectId];
+  const selectedProject = projects.find((project)=> project.projectId == selectedProjectId);
 
   // Section One - Project name, client name, project manager, project status
   const sectionOne = document.querySelector('#section1');
@@ -125,7 +126,7 @@ function loadDetails() {
   // Technologies tag list
   const tagList = document.querySelector('#tag-list');
   removeChildNodes(tagList);
-  selectedProject.technologies.forEach(technology => {
+  JSON.parse(selectedProject.technologies).forEach(technology => {
     const technologyTag = createSpanTag(technology);
     technologyTag.classList.add('tags');
     tagList.appendChild(technologyTag);

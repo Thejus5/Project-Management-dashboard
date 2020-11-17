@@ -6,7 +6,6 @@ let getApi = function (url, callback) {
     if (this.status === 200) {
       try {
         let responseArray = JSON.parse(this.responseText)
-        console.log(JSON.parse(responseArray[0].technologies))
         callback(responseArray)
       }
       catch {
@@ -18,7 +17,7 @@ let getApi = function (url, callback) {
     }
   }
 
-  xhr.open('GET',url)
+  xhr.open('GET',url,false)
   xhr.send()
 }
 
