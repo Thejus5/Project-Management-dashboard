@@ -229,7 +229,7 @@ function statusHistoryLoader() {
 function loadHistory(id, resourceSelector = 'All') {
   let reports = offlineReports.filter((report) => report.project_id == id)
   if (resourceSelector != 'All') {
-    reports = reports.filter((report) => report.resources === resourceSelector)
+    reports = reports.filter((report) => report.resource_id == resourceSelector)
   }
 
   // Sorting filtered report by date
