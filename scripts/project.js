@@ -5,89 +5,103 @@ let addProjectFunctionality = true;
 inputTags(document.querySelector('#technologies'), projects.technologies);
 
 function addOrUpdateProject(e) {
-    e.preventDefault()
+  e.preventDefault()
 
-    // Check if all form input fields are valid.
-    const projectNameStatus = projectName.value.length == 0 ? false : true,
-        clientNameStatus = clientName.value.length == 0 ? false : true,
-        projectManagerStatus = RegExp.prototype.isAlpha(projectManager.value) && projectManager.value.length != 0 ? true : false,
-        dateStatus = startDate.value < endDate.value ? true : false,
-        descriptionStatus = description.value.length == 0 ? false : true
+  // Check if all form input fields are valid.
+  const projectNameStatus = projectName.value.length == 0 ? false : true,
+    clientNameStatus = clientName.value.length == 0 ? false : true,
+    projectManagerStatus = RegExp.prototype.isAlpha(projectManager.value) && projectManager.value.length != 0 ? true : false,
+    dateStatus = startDate.value < endDate.value ? true : false,
+    descriptionStatus = description.value.length == 0 ? false : true
 
-    if (projectNameStatus && clientNameStatus && projectManagerStatus && descriptionStatus && dateStatus) {
-        projectFormModal.style.display = "none";
-        formsContainer.style.display = "none";
+  if (projectNameStatus && clientNameStatus && projectManagerStatus && descriptionStatus && dateStatus) {
+    projectFormModal.style.display = "none";
+    formsContainer.style.display = "none";
 
-        const projectDetails = {
-            // projectId: addProjectFunctionality ? projects.projectList.length : Number(selectedProjectId),
-            name: projectName.value,
-            client: clientName.value,
-            manager: projectManager.value,
-            status: 'Open',
-            start_date: startDate.value,
-            end_date: endDate.value,
-            progress: progress.value || 0,
-            // technologies: technologies.value,
-            description: description.value,
-            technologies: technologies.value ? JSON.parse(technologies.value).map(tech => tech.value) : []
-        }
-
-        // If a new user-entered tag is not there in technologies array, add it to the array.
-        // projectDetails.technologies.forEach(tech => {
-        //     if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
-        // });
-        if (addProjectFunctionality) {
-            postAPI('http://localhost:8080/projects',projectDetails,(res)=>{
-                console.log('Data Added')
-                document.location.reload()
-            })
-        } else {
-            putAPI(`http://localhost:8080/projects/${selectedProjectId}`,projectDetails,(res)=>{
-                console.log('Data updated')
-                setTimeout(()=>{
-                    document.location.reload(true)
-                },3000)
-            })
-        }
-
-    } // Display error messages
-    else {
-        if (!projectNameStatus) errorMessages(projectName, "#pname-error", "This field cannot be empty")
-        if (!clientNameStatus) errorMessages(clientName, "#cname-error", "This field cannot be empty")
-        if (!projectManagerStatus) {
-            if (projectManager.value.length == 0) errorMessages(projectManager, "#pmname-error", "This field cannot be empty")
-            else errorMessages(projectManager, "#pmname-error", "Only alphabets and spaces are allowed")
-        }
-        if (!dateStatus) errorMessages(endDate, "#dates-error", "Enter a valid end date")
-        if (!descriptionStatus) errorMessages(description, "#description-error", "This field cannot be empty")
+    const projectDetails = {
+      // projectId: addProjectFunctionality ? projects.projectList.length : Number(selectedProjectId),
+      name: projectName.value,
+      client: clientName.value,
+      manager: projectManager.value,
+      status: 'Open',
+      start_date: startDate.value,
+      end_date: endDate.value,
+      progress: progress.value || 0,
+      // technologies: technologies.value,
+      description: description.value,
+      technologies: technologies.value ? JSON.parse(technologies.value).map(tech => tech.value) : []
     }
+
+    // If a new user-entered tag is not there in technologies array, add it to the array.
+    // projectDetails.technologies.forEach(tech => {
+    //     if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
+    // });
+    if (addProjectFunctionality) {
+      postAPI('http://localhost:8080/projects', projectDetails, (res) => {
+        console.log('Data Added')
+        document.location.reload()
+      })
+    } else {
+      putAPI(`http://localhost:8080/projects/${selectedProjectId}`, projectDetails, (res) => {
+        console.log('Data updated')
+        updateProjectToLocal(projectDetails)
+        loadProjectList() // This updates everything
+      })
+    }
+
+  } // Display error messages
+  else {
+    if (!projectNameStatus) errorMessages(projectName, "#pname-error", "This field cannot be empty")
+    if (!clientNameStatus) errorMessages(clientName, "#cname-error", "This field cannot be empty")
+    if (!projectManagerStatus) {
+      if (projectManager.value.length == 0) errorMessages(projectManager, "#pmname-error", "This field cannot be empty")
+      else errorMessages(projectManager, "#pmname-error", "Only alphabets and spaces are allowed")
+    }
+    if (!dateStatus) errorMessages(endDate, "#dates-error", "Enter a valid end date")
+    if (!descriptionStatus) errorMessages(description, "#description-error", "This field cannot be empty")
+  }
+}
+
+function updateProjectToLocal(projectToDatabase) {
+
+  let projectToUpdate = projects.find((project) => project.projectId == selectedProjectId)
+  projectToUpdate.projectName = projectToDatabase.name
+  projectToUpdate.clientName = projectToDatabase.client
+  projectToUpdate.projectManager = projectToDatabase.manager
+  projectToUpdate.projectStatus = 'Open'
+  projectToUpdate.startDate = projectToDatabase.start_date
+  projectToUpdate.endDate = projectToDatabase.end_date
+  projectToUpdate.progress = projectToDatabase.progress
+  projectToUpdate.description = projectToDatabase.description
+  projectToUpdate.technologies = JSON.stringify( projectToDatabase.technologies)
+
 }
 
 // Add new project event listener.
 const addProject = document.querySelector('#new-project');
 addProject.addEventListener('click', function (e) {
 
-    document.querySelector('#project-form').reset();
-    clearProjectErrorMessages();
+  document.querySelector('#project-form').reset();
+  clearProjectErrorMessages();
 
-    // Change form heading and submit button text.
-    const formTitle = document.querySelector('#project-form--title'),
-        submitButton = document.querySelector('#submit-project--button');
-    const updateText = 'Add Project';
-    formTitle.innerText = updateText;
-    submitButton.value = updateText;
+  // Change form heading and submit button text.
+  const formTitle = document.querySelector('#project-form--title'),
+    submitButton = document.querySelector('#submit-project--button');
+  const updateText = 'Add Project';
+  formTitle.innerText = updateText;
+  submitButton.value = updateText;
 
-    // Display add project form.
-    formsContainer.style.display = "flex";
-    projectFormModal.style.display = "block";
-    resourceFormModal.style.display = "none";
-    deleteResourceConfirmationModal.style.display = "none";
+  // Display add project form.
+  formsContainer.style.display = "flex";
+  projectFormModal.style.display = "block";
+  resourceFormModal.style.display = "none";
+  deleteResourceConfirmationModal.style.display = "none";
 
-    // Hide progress slider
-    document.getElementById("form-project-progress").style.display = "none";
+  // Hide progress slider
+  document.getElementById("form-project-progress").style.display = "none";
 
-    projectName.readOnly = false;
-    clientName.readOnly = false;
+  projectName.readOnly = false;
+  clientName.readOnly = false;
 
 });
 
@@ -96,79 +110,79 @@ addProject.addEventListener('click', function (e) {
 const updateProject = document.querySelector('#project-headings--edit');
 updateProject.addEventListener('click', function (e) {
 
-    // Add project functionality set to false. (ie, update functionality is now true.)
-    addProjectFunctionality = false;
+  // Add project functionality set to false. (ie, update functionality is now true.)
+  addProjectFunctionality = false;
 
-    clearProjectErrorMessages();
+  clearProjectErrorMessages();
 
-    const projectName = document.querySelector('#project-name'),
-        clientName = document.querySelector('#client-name'),
-        projectManager = document.getElementById("project-manager"),
-        startDate = document.querySelector('#start-date'),
-        endDate = document.querySelector('#end-date'),
-        technologies = document.querySelector('#technologies'),
-        progress = document.getElementById("range"),
-        progressLabel = document.querySelector('#progress-label'),
-        description = document.getElementById("description"),
-        formTitle = document.querySelector('#project-form--title'),
-        submitButton = document.querySelector('#submit-project--button');
-
-
-    // Display update project details form.
-    formsContainer.style.display = "flex";
-    projectFormModal.style.display = "block";
-    resourceFormModal.style.display = "none";
-    deleteResourceConfirmationModal.style.display = "none";
-
-    // Display slider and change button text
-    document.getElementById("form-project-progress").style.display = "block";
+  const projectName = document.querySelector('#project-name'),
+    clientName = document.querySelector('#client-name'),
+    projectManager = document.getElementById("project-manager"),
+    startDate = document.querySelector('#start-date'),
+    endDate = document.querySelector('#end-date'),
+    technologies = document.querySelector('#technologies'),
+    progress = document.getElementById("range"),
+    progressLabel = document.querySelector('#progress-label'),
+    description = document.getElementById("description"),
+    formTitle = document.querySelector('#project-form--title'),
+    submitButton = document.querySelector('#submit-project--button');
 
 
-    // Change form heading and submit button text.
-    const updateText = 'Update Project';
-    formTitle.innerText = updateText;
-    submitButton.value = updateText;
+  // Display update project details form.
+  formsContainer.style.display = "flex";
+  projectFormModal.style.display = "block";
+  resourceFormModal.style.display = "none";
+  deleteResourceConfirmationModal.style.display = "none";
 
-    // Set project name and client name as non-editable.
-    projectName.readOnly = true;
-    clientName.readOnly = true;
+  // Display slider and change button text
+  document.getElementById("form-project-progress").style.display = "block";
 
-    // Identify currently active project and populate update form fields with existing values.
-    let selectedProject = projects.find((project)=> project.projectId == selectedProjectId);
-    projectName.value = selectedProject.projectName;
-    clientName.value = selectedProject.clientName;
-    projectManager.value = selectedProject.projectManager;
-    startDate.value = selectedProject.startDate;
-    endDate.value = selectedProject.endDate;
-    // technologies.value = selectedProject.technologies.join(',');
-    progress.value = selectedProject.progress;
-    progressLabel.innerText = selectedProject.progress;
-    description.value = selectedProject.description;
 
-    tagify.addTags(JSON.parse(selectedProject.technologies));
+  // Change form heading and submit button text.
+  const updateText = 'Update Project';
+  formTitle.innerText = updateText;
+  submitButton.value = updateText;
+
+  // Set project name and client name as non-editable.
+  projectName.readOnly = true;
+  clientName.readOnly = true;
+
+  // Identify currently active project and populate update form fields with existing values.
+  let selectedProject = projects.find((project) => project.projectId == selectedProjectId);
+  projectName.value = selectedProject.projectName;
+  clientName.value = selectedProject.clientName;
+  projectManager.value = selectedProject.projectManager;
+  startDate.value = selectedProject.startDate;
+  endDate.value = selectedProject.endDate;
+  // technologies.value = selectedProject.technologies.join(',');
+  progress.value = selectedProject.progress;
+  progressLabel.innerText = selectedProject.progress;
+  description.value = selectedProject.description;
+
+  tagify.addTags(JSON.parse(selectedProject.technologies));
 })
 
-function clearProjectErrorMessages () {
-    const projectNameError = document.querySelector('#pname-error'),
-        clientNameError = document.querySelector('#cname-error'),
-        projectManagerError = document.querySelector("#pmname-error"),
-        datesError = document.querySelector('#dates-error'),
-        descriptionError = document.querySelector("#description-error"),
-        projectName = document.querySelector('#project-name'),
-        clientName = document.querySelector('#client-name'),
-        projectManager = document.getElementById("project-manager"),
-        endDate = document.querySelector('#end-date');
+function clearProjectErrorMessages() {
+  const projectNameError = document.querySelector('#pname-error'),
+    clientNameError = document.querySelector('#cname-error'),
+    projectManagerError = document.querySelector("#pmname-error"),
+    datesError = document.querySelector('#dates-error'),
+    descriptionError = document.querySelector("#description-error"),
+    projectName = document.querySelector('#project-name'),
+    clientName = document.querySelector('#client-name'),
+    projectManager = document.getElementById("project-manager"),
+    endDate = document.querySelector('#end-date');
 
-    projectNameError.innerText = '';
-    clientNameError.innerText = '';
-    projectManagerError.innerText = '';
-    datesError.innerText = '';
-    descriptionError.innerText = '';
-    projectName.style.border = 'none';
-    clientName.style.border = 'none';
-    projectManager.style.border = 'none';
-    endDate.style.border = 'none';
-    description.style.border = 'none';
+  projectNameError.innerText = '';
+  clientNameError.innerText = '';
+  projectManagerError.innerText = '';
+  datesError.innerText = '';
+  descriptionError.innerText = '';
+  projectName.style.border = 'none';
+  clientName.style.border = 'none';
+  projectManager.style.border = 'none';
+  endDate.style.border = 'none';
+  description.style.border = 'none';
 }
 
 // Project form submit button event listener. It calls addOrUpdateProject().
@@ -177,9 +191,9 @@ submitProjectForm.addEventListener('click', addOrUpdateProject);
 
 // Pressing cancel on the project form will reload the page (to clear current form state) and set addProjectFunctionality to true.
 const cancelProject = document.getElementById("cancel");
-cancelProject.addEventListener('click', _ => { 
-    clearProjectErrorMessages();
-    formsContainer.style.display = "none"; 
-    addProjectFunctionality = true; 
-    tagify.removeAllTags(); 
+cancelProject.addEventListener('click', _ => {
+  clearProjectErrorMessages();
+  formsContainer.style.display = "none";
+  addProjectFunctionality = true;
+  tagify.removeAllTags();
 });
