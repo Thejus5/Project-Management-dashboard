@@ -215,12 +215,12 @@ function generateInvoice() {
     const invoiceTable = document.querySelector('#invoice-table');
     removeChildNodes(invoiceTable);
 
-    let resourceList = resources[selectedProjectId];
+    let resourceList = resources.filter((resource)=> resource.project_id == selectedProjectId);
     let invoiceAmount = 0;
 
     if (resourceList) {
       resourceList.forEach(resource => {
-        if (resource.billable === true) {
+        if (resource.billable == true) {
           const tableRow = document.createElement('tr');
           const resourceName = createTableCell(resource.name);
           const ratePerHour = createTableCell(resource.ratePerHour);
