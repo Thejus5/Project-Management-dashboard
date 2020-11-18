@@ -16,7 +16,7 @@ const fetchDashboardData = () => {
 
   // selectedProjectId = projects.projectList.length - 1;
   selectedProjectId = projects[projects.length-1].projectId
-  console.log(projects)
+  console.log(resources)
   
   loadProjectList();
 }
@@ -141,6 +141,7 @@ function loadDetails() {
 
 // Loads project resources tab.
 function loadResources() {
+  console.log('Loaded resource')
   const resourceTableBody = document.querySelector('#resource-table--body');
   removeChildNodes(resourceTableBody);
 

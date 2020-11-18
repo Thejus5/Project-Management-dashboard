@@ -6,6 +6,7 @@ const createResourceObject = (name, role, email, billable, rate) => {
     const resourceDetails = {
         name: name,
         role: role,
+        project_id: selectedProjectId,
         email: email,
         billable: billable.checked,
         ratePerHour: billable.checked ? Number(rate) : Number(0)
@@ -20,7 +21,12 @@ function addOrUpdateObject (resourceDetails) {
     }
     if (addResourceFunctionality) {
         // Add new resource.
-        resources[selectedProjectId].push(resourceDetails);
+        // resources[selectedProjectId].push(resourceDetails);
+        postAPI('http://localhost:8080/resources',resourceDetails,(res)=>{
+            console.log({id:JSON.parse(res),...resourceDetails})
+            resources.push({id:JSON.parse(res),...resourceDetails})
+            loadResources();
+        })
     } else {
         // Update already existing resource.
         resources[selectedProjectId][selectedResource] = resourceDetails;
