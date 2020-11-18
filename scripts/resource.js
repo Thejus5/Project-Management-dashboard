@@ -201,15 +201,26 @@ cancelDeleteResource.onclick = () => formsContainer.style.display = "none";
 const deleteResourceButton = document.querySelector('#delete-resource');
 deleteResourceButton.addEventListener('click', function (e) {
     e.preventDefault()
-    resources[selectedProjectId].splice(selectedResource, 1);
+    resources = resources.filter((resource) => {
+        if (resource.id == selectedResource) {
+            if (resource.project_id == selectedProjectId) { }
+            else { return resource }
+        }
+        else {
+            return resource
+        }
+    })
 
+    console.log(resources)
     resourceFormModal.style.display = "none";
     formsContainer.style.display = "none";
 
     // Function call to update changes to remote storage bin.
-    put(urlList.resources, secretKey, resources, printResult);
-    loadResources();
-    resetInvoiceTab();
+    deleteApi(`http://localhost:8080/resources/${selectedResource}/${selectedProjectId}`, (res) => {
+        loadResources();
+        resetInvoiceTab();
+    })
+
 });
 
 // Billable status
