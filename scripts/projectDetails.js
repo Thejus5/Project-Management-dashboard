@@ -3,21 +3,25 @@
 let projects;
 let resources;
 let selectedProjectId;
+let technologiesList
 
 // Fetches all dashboard data.
 const fetchDashboardData = () => {
   // get(urlList.projects, secretKey, storeProjectData);
-  getApi('http://localhost:8080/projects',storeProjectData)
+  getApi('http://localhost:8080/projects', storeProjectData)
   // get(urlList.resources, secretKey, storeResourceData);
-  getApi('http://localhost:8080/resources',storeResourceData)
+  getApi('http://localhost:8080/resources', storeResourceData)
+  getApi('http://localhost:8080/techs', (res) => {
+    technologiesList = res
+  })
   get(urlList.statusReport, secretKey, (res) => {
     offlineReports = res
   })
 
   // selectedProjectId = projects.projectList.length - 1;
-  selectedProjectId = projects[projects.length-1].projectId
-  console.log(resources)
-  
+  selectedProjectId = projects[projects.length - 1].projectId
+  console.log(technologiesList)
+
   loadProjectList();
 }
 
@@ -26,7 +30,7 @@ fetchDashboardData();
 // Loads list of all projects - recently added will come first.
 function loadProjectList() {
   // projectArray = projects.projectList.map(element => element);
-   projectArray = projects.map(element => element);
+  projectArray = projects.map(element => element);
   projectArray.reverse();
   if (projectArray.length) {
     const projectList = document.querySelector('#project-list');
@@ -96,7 +100,7 @@ function selectProject(newSelectedProjectId) {
 
 // Loads project details tab.
 function loadDetails() {
-  const selectedProject = projects.find((project)=> project.projectId == selectedProjectId);
+  const selectedProject = projects.find((project) => project.projectId == selectedProjectId);
 
   // Section One - Project name, client name, project manager, project status
   const sectionOne = document.querySelector('#section1');
@@ -149,8 +153,8 @@ function loadResources() {
   let resourceList = resources.filter((resource) => resource.project_id == selectedProjectId);
   if (resourceList) {
     resourceList.forEach((resource
-      ) => {
-      let {project_id,id,...element} = resource
+    ) => {
+      let { project_id, id, ...element } = resource
       const tableRow = document.createElement('tr');
       for (const key in element) {
         let cell;

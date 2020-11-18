@@ -2,7 +2,7 @@
 let addProjectFunctionality = true;
 
 // Invoke function to initialize tagify variable which makes technologies input field a tagged input field.
-inputTags(document.querySelector('#technologies'), projects.technologies);
+inputTags(document.querySelector('#technologies'), technologiesList);
 
 function addOrUpdateProject(e) {
   e.preventDefault()
