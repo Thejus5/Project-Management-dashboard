@@ -41,15 +41,9 @@ let sample = [
 ]
 
 /*---------------- API call -------------------------------------*/
-function apiCall() {
-  get(urlList.statusReport, secretKey, (reports) => {
-    if (reports && reports.length > 0) {
-      // offlineReports = sample
-      offlineReports = reports
-      statusTabLoader()
-      statusHistoryLoader()  // This function is written way below. Check the content list.
-    }
-  })
+function startingPoint() {
+  statusTabLoader()
+  statusHistoryLoader()  // This function is written way below. Check the content list.
 }
 
 /*---------------- Load contents of status report ---------------*/
@@ -70,12 +64,12 @@ function statusTabLoader() {
 function resourceDropDown(projectId) {
   let selectorForResources = document.querySelector('#resources-dropdown')
   selectorForResources.innerHTML = `<option value="Select Resource">Select Resource</option>`
-  let resourceOfSelected = latestOfflineResources[projectId]
+  let resourceOfSelected = resources.filter((resource) => resource.project_id == projectId)
 
   if (resourceOfSelected) {
     resourceOfSelected.forEach((resource) => {
       let option = document.createElement('option')
-      option.value = resource.name
+      option.value = resource.id
       option.textContent = resource.name
       selectorForResources.appendChild(option)
     })
@@ -112,7 +106,7 @@ function setDate() {
 }
 
 // Make the API call
-apiCall()
+startingPoint()
 
 /*---------------- Event Listeners ---------------------------------*/
 const statusTabButton = document.querySelector('#project-headings--status')
@@ -210,7 +204,7 @@ function resetAllErrors() {
 /*---------------- Load status history ---------------------------*/
 function statusHistoryLoader() {
   let selectedProjectId = document.querySelector('.selection').dataset['projectid']
-  let reportedResources = [...new Set(offlineReports.filter((reports) => reports.project_id == selectedProjectId).reduce((acc, cur) => [...acc, cur.resources], []))]
+  let reportedResources = [...new Set(offlineReports.filter((reports) => reports.project_id == selectedProjectId).reduce((acc, cur) => [...acc, cur.resource_id], []))]
 
   // Create the sorting dropdown
   if (reportedResources) {
@@ -224,7 +218,7 @@ function statusHistoryLoader() {
     reportedResources.forEach((report) => {
       let option = document.createElement('option')
       option.value = report
-      option.innerHTML = report
+      option.innerHTML = (resources.find((resource) => resource.id == report)).name
       sorter.appendChild(option)
     })
 
@@ -253,6 +247,7 @@ function loadHistory(id, resourceSelector = 'All') {
 
 // Returns the card that can be appended to container
 function generateStatusCard(report) {
+  let resourceName = (resources.find((resource) => resource.id == report.resource_id)).name
   const oldReports = document.createElement('div')
   oldReports.className = 'old-report'
 
@@ -283,7 +278,7 @@ function generateStatusCard(report) {
 
   const resource = document.createElement('p')
   resource.className = 'resource-name'
-  resource.innerHTML = report.resources
+  resource.innerHTML = resourceName
   detailsBox.appendChild(resource)
 
   oldReports.appendChild(postedDateBox)
@@ -303,13 +298,13 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     project_id: parseInt(selectedProjectId),
     date: dateField.value,
     posted_date: formattedToday,
-    resources: resourceField.value,
+    resource_id: parseInt(resourceField.value),
     activities: activityField.value,
     hours: parseInt(hoursField.value)
   }
 
   // Check whether the same report is already there in database
-  let sameReport = offlineReports.find((report) => (report.project_id === newReport.project_id && report.date === newReport.date && report.resources === newReport.resources && report.activities === newReport.activities))
+  let sameReport = offlineReports.find((report) => (report.project_id === newReport.project_id && report.date === newReport.date && report.resource_id === newReport.resource_id && report.activities === newReport.activities))
 
   const mainError = document.querySelector('.main-error')
   if (sameReport) {
@@ -317,8 +312,8 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
     mainError.style.visibility = 'visible'
   }
   else {
-    let previousTotalTime = offlineReports.filter((reports) => (reports.project_id === newReport.project_id && reports.resources === newReport.resources && reports.date === newReport.date)).reduce((acc, cur) => acc + cur.hours, 0)
-    console.log(offlineReports.filter((reports) => (reports.project_id === newReport.project_id && reports.resources === newReport.resources)))
+    let previousTotalTime = offlineReports.filter((reports) => (reports.project_id === newReport.project_id && reports.resource_id === newReport.resource_id && reports.date === newReport.date)).reduce((acc, cur) => acc + cur.hours, 0)
+
     if ((previousTotalTime + newReport.hours) > 16) {
       mainError.innerHTML = "This resource has exceeded the per day time limit"
       mainError.style.visibility = 'visible'
@@ -328,12 +323,14 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
       mainError.innerHTML = ""
       mainError.style.visibility = 'hidden'
 
-      loadHistory(selectedProjectId)
-      put(urlList.statusReport, secretKey, offlineReports, (res) => {
-        successResponse(mainError)
-        console.log(res)
+
+      // put(urlList.statusReport, secretKey, offlineReports, (res) => {
+      //   successResponse(mainError)
+      //   console.log(res)
+      // })
+      postAPI('http://localhost:8080/status',newReport, (res) => {
+        statusHistoryLoader()
       })
-      console.log(offlineReports)
     }
   }
 }

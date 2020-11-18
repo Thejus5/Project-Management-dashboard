@@ -7,20 +7,19 @@ let technologiesList
 
 // Fetches all dashboard data.
 const fetchDashboardData = () => {
-  // get(urlList.projects, secretKey, storeProjectData);
   getApi('http://localhost:8080/projects', storeProjectData)
-  // get(urlList.resources, secretKey, storeResourceData);
   getApi('http://localhost:8080/resources', storeResourceData)
   getApi('http://localhost:8080/techs', (res) => {
     technologiesList = res
   })
-  get(urlList.statusReport, secretKey, (res) => {
+  getApi('http://localhost:8080/status',(res)=>{
     offlineReports = res
   })
+  // get(urlList.statusReport, secretKey, (res) => {
+  //   offlineReports = res
+  // })
 
-  // selectedProjectId = projects.projectList.length - 1;
   selectedProjectId = projects[projects.length - 1].projectId
-  console.log(technologiesList)
 
   loadProjectList();
 }
@@ -145,7 +144,6 @@ function loadDetails() {
 
 // Loads project resources tab.
 function loadResources() {
-  console.log('Loaded resource')
   const resourceTableBody = document.querySelector('#resource-table--body');
   removeChildNodes(resourceTableBody);
 
@@ -402,6 +400,7 @@ function loadBurnedHours() {
   container.innerHTML = ''
   if (filteredReport.length > 0) {
     let totalHours = filteredReport.reduce((acc, cur) => acc + cur.hours, 0)
+
     const totalText = document.createElement('p')
     totalText.className = 'total-hours-text'
     totalText.innerHTML = `Total hours burned: `
@@ -428,20 +427,22 @@ function loadPerResourceHours(reports, container, totalHours) {
   let perResourceData = {}
 
   reports.forEach((report) => {
-    if (Object.keys(perResourceData).includes(report.resources)) {
-      perResourceData[report.resources] += report.hours
+    if (Object.keys(perResourceData).includes(JSON.stringify(report.resource_id))) {
+      perResourceData[report.resource_id] += report.hours
     }
     else {
-      perResourceData[report.resources] = report.hours
+      perResourceData[report.resource_id] = report.hours
     }
   })
+
+ 
 
   Object.keys(perResourceData).forEach((key) => {
     let percentageHour = (perResourceData[key] * 100) / totalHours
 
     let resourceName = document.createElement('p')
     resourceName.className = 'resource-name'
-    resourceName.innerHTML = key
+    resourceName.innerHTML = (resources.find((resource) => resource.id == parseInt(key))).name
     container.appendChild(resourceName)
 
     let progressOverallBox = document.createElement('div')
