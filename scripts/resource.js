@@ -15,41 +15,49 @@ const createResourceObject = (name, role, email, billable, rate) => {
 }
 
 // Function to add or update resource.
-function addOrUpdateObject (resourceDetails) {
+function addOrUpdateObject(resourceDetails) {
     if (!resources[selectedProjectId]) {
         resources[selectedProjectId] = [];
     }
     if (addResourceFunctionality) {
         // Add new resource.
-        // resources[selectedProjectId].push(resourceDetails);
-        postAPI('http://localhost:8080/resources',resourceDetails,(res)=>{
-            console.log({id:JSON.parse(res),...resourceDetails})
-            resources.push({id:JSON.parse(res),...resourceDetails})
+        postAPI('http://localhost:8080/resources', resourceDetails, (res) => {
+            resources.push({ id: JSON.parse(res), ...resourceDetails })
             loadResources();
         })
     } else {
         // Update already existing resource.
-        resources[selectedProjectId][selectedResource] = resourceDetails;
+        // resources[selectedProjectId][selectedResource] = resourceDetails;
+        putAPI(`http://localhost:8080/resources/${selectedResource}`, resourceDetails, (res) => {
+            let resourceToUpdate = resources.find((resource) => resource.id == selectedResource && resource.project_id == selectedProjectId)
+
+            resourceToUpdate.role = resourceDetails.role
+            resourceToUpdate.billable = resourceDetails.billable
+            resourceToUpdate.ratePerHour = resourceDetails.ratePerHour
+
+            loadResources()
+        })
+
     }
-} 
+}
 
 // Function call to update changes to remote storage bin.
-function sendFormData () {
-    put(urlList.resources, secretKey, resources, ()=>{
-        latestOfflineResources = resources
-    });
+function sendFormData() {
+    // put(urlList.resources, secretKey, resources, ()=>{
+    //     latestOfflineResources = resources
+    // });
     loadResources();
     resourceFormModal.style.display = "none";
     formsContainer.style.display = "none";
 }
 
 function addOrUpdateResource(e) {
-    
+
     e.preventDefault()
     const nameStatus = resourceName.value.length != 0 && RegExp.prototype.isAlpha(resourceName.value) ? true : false,
-    emailStatus = email.value.length > 0 && emailPatternCheck(email.value) ? true : false
+        emailStatus = email.value.length > 0 && emailPatternCheck(email.value) ? true : false
     roleStatus = role.value.length != 0 && RegExp.prototype.isAlpha(role.value) ? true : false,
-    rateStatus = rate.value != "" && billableStatus.checked ? true : false
+        rateStatus = rate.value != "" && billableStatus.checked ? true : false
     let resourceDetails;
 
     if (nameStatus && emailStatus && roleStatus) {
@@ -57,27 +65,26 @@ function addOrUpdateResource(e) {
             console.log(rateStatus, rate)
             if (rateStatus) {
                 resourceDetails = createResourceObject(resourceName.value, role.value, email.value, billableStatus, rate.value)
-                console.log(resourceDetails)
                 addOrUpdateObject(resourceDetails)
                 sendFormData()
             }
             // Rate field empty error
-            else {errorMessages(rate, "#rate-error", "Enter a valid amount")}
+            else { errorMessages(rate, "#rate-error", "Enter a valid amount") }
         } // billable false
-        else { 
+        else {
             resourceDetails = createResourceObject(resourceName.value, role.value, email.value, billableStatus, 0)
             addOrUpdateObject(resourceDetails)
             sendFormData();
         }
-    
+
         console.log("Data stored/updated")
-        
+
 
     } // Name or email or role empty OR contains characters other than alphabets and spaces
     else {
         if (!nameStatus) resourceName.value.length == 0 ? errorMessages(resourceName, "#name-error", "This field cannot be empty") : (RegExp.prototype.isAlpha(resourceName.value) ? _ : errorMessages(resourceName, "#name-error", "Only alphabets and spaces are allowed"))
-        if (!emailStatus)email.value.length == 0 ? errorMessages(email, "#email-error", "This field cannot be empty") : (emailPatternCheck(email.value) ? _ : errorMessages(email, "#email-error", "Invalid email address"))
-        if (!roleStatus)role.value.length == 0 ? errorMessages(role, "#role-error", "This field cannot be empty") : (RegExp.prototype.isAlpha(role.value) ? _ : errorMessages(role, "#role-error", "Only alphabets and spaces are allowed"))
+        if (!emailStatus) email.value.length == 0 ? errorMessages(email, "#email-error", "This field cannot be empty") : (emailPatternCheck(email.value) ? _ : errorMessages(email, "#email-error", "Invalid email address"))
+        if (!roleStatus) role.value.length == 0 ? errorMessages(role, "#role-error", "This field cannot be empty") : (RegExp.prototype.isAlpha(role.value) ? _ : errorMessages(role, "#role-error", "Only alphabets and spaces are allowed"))
     }
     resetInvoiceTab();
 }
@@ -92,7 +99,7 @@ addResource.addEventListener('click', _ => {
 
     clearErrorMessages();
     document.querySelector('#resource-form').reset();
-    
+
     // Display add resource form.
     formsContainer.style.display = "flex";
     document.getElementById("modal-content-project").style.display = "none";
@@ -104,7 +111,7 @@ addResource.addEventListener('click', _ => {
     document.querySelector('#resource-submit--button').value = 'Add Resource';
 
     const resourceName = document.querySelector('#name'), emailId = document.querySelector('#email');
-    
+
     document.querySelector('#rate-label').style.display = billableStatus.checked ? 'flex' : 'none';
 
     resourceName.readOnly = false;
@@ -118,7 +125,6 @@ let selectedResource;
 function displayEditResourceForm(e) {
     e.preventDefault()
     selectedResource = e.currentTarget.dataset.editresourceid;
-
     formsContainer.style.display = "flex";
     document.getElementById("modal-content-project").style.display = "none";
     document.getElementById("modal-content--resource").style.display = "block";
@@ -131,8 +137,8 @@ function displayEditResourceForm(e) {
 
     clearErrorMessages();
 
-    resourceList = resources[selectedProjectId];
-    const resource = resourceList[selectedResource];
+    let resourceList = resources.filter((resource) => resource.project_id == selectedProjectId);
+    const resource = resourceList.find((resource) => resource.id == selectedResource);
     console.log(resource)
     resourceName.value = resource.name;
     email.value = resource.email;
@@ -146,15 +152,15 @@ function displayEditResourceForm(e) {
     email.readOnly = true;
 }
 
-function clearErrorMessages () {
+function clearErrorMessages() {
     const resourceNameError = document.querySelector('#name-error'),
-    emailIdError = document.querySelector('#email-error'),
-    resourceRoleError = document.querySelector('#role-error'),
-    ratePerHourError = document.querySelector('#rate-error');
-    const resourceName = document.getElementById("name"), 
+        emailIdError = document.querySelector('#email-error'),
+        resourceRoleError = document.querySelector('#role-error'),
+        ratePerHourError = document.querySelector('#rate-error');
+    const resourceName = document.getElementById("name"),
         email = document.getElementById("email"),
-        role = document.getElementById("role"), 
-        billableStatus = document.getElementById("billable"), 
+        role = document.getElementById("role"),
+        billableStatus = document.getElementById("billable"),
         rate = document.getElementById("rate")
 
     resourceName.innerText = '';
@@ -174,7 +180,7 @@ function clearErrorMessages () {
 }
 
 const cancelResource = document.getElementById("cancel-resource");
-cancelResource.addEventListener('click', _ => {formsContainer.style.display = "none"; document.getElementById("rate-label").style.display = "none"; addResourceFunctionality = true; });
+cancelResource.addEventListener('click', _ => { formsContainer.style.display = "none"; document.getElementById("rate-label").style.display = "none"; addResourceFunctionality = true; });
 
 const submitResourceForm = document.querySelector('#resource-submit--button');
 submitResourceForm.addEventListener('click', addOrUpdateResource);
@@ -196,7 +202,7 @@ const deleteResourceButton = document.querySelector('#delete-resource');
 deleteResourceButton.addEventListener('click', function (e) {
     e.preventDefault()
     resources[selectedProjectId].splice(selectedResource, 1);
-    
+
     resourceFormModal.style.display = "none";
     formsContainer.style.display = "none";
 

@@ -148,7 +148,8 @@ function loadResources() {
   // let resourceList = resources[selectedProjectId];
   let resourceList = resources.filter((resource) => resource.project_id == selectedProjectId);
   if (resourceList) {
-    resourceList.forEach((resource, index) => {
+    resourceList.forEach((resource
+      ) => {
       let {project_id,id,...element} = resource
       const tableRow = document.createElement('tr');
       for (const key in element) {
@@ -165,12 +166,12 @@ function loadResources() {
         {
           buttonType: 'edit',
           attribute: 'data-editresourceid',
-          row: index,
+          row: id,
         },
         {
           buttonType: 'delete',
           attribute: 'data-deleteresourceid',
-          row: index
+          row: id
         }
       ]
       tableRow.appendChild(createButtonCell(buttons));
