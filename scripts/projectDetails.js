@@ -1,4 +1,3 @@
-// import apis from './api.js'
 // Global variables to store data commonly accessed by multiple functions.
 let projects;
 let resources;
@@ -12,15 +11,11 @@ const fetchDashboardData = () => {
   getApi('http://localhost:8080/techs', (res) => {
     technologiesList = res
   })
-  getApi('http://localhost:8080/status',(res)=>{
+  getApi('http://localhost:8080/status', (res) => {
     offlineReports = res
   })
-  // get(urlList.statusReport, secretKey, (res) => {
-  //   offlineReports = res
-  // })
 
   selectedProjectId = projects[projects.length - 1].projectId
-
   loadProjectList();
 }
 
@@ -213,7 +208,7 @@ function generateInvoice() {
     const invoiceTable = document.querySelector('#invoice-table');
     removeChildNodes(invoiceTable);
 
-    let resourceList = resources.filter((resource)=> resource.project_id == selectedProjectId);
+    let resourceList = resources.filter((resource) => resource.project_id == selectedProjectId);
     let invoiceAmount = 0;
 
     if (resourceList) {
@@ -435,7 +430,7 @@ function loadPerResourceHours(reports, container, totalHours) {
     }
   })
 
- 
+
 
   Object.keys(perResourceData).forEach((key) => {
     let percentageHour = (perResourceData[key] * 100) / totalHours

@@ -1,6 +1,5 @@
 
 let getApi = function (url, callback) {
- // comment
   let xhr = new XMLHttpRequest()
 
   xhr.onload = function () {
@@ -18,7 +17,7 @@ let getApi = function (url, callback) {
     }
   }
 
-  xhr.open('GET',url,false)
+  xhr.open('GET', url, false)
   xhr.send()
 }
 
@@ -70,7 +69,6 @@ let putAPI = function (url, body, callback) {
 }
 
 let deleteApi = function (url, callback) {
- // comment
   let xhr = new XMLHttpRequest()
 
   xhr.onload = function () {
@@ -89,6 +87,6 @@ let deleteApi = function (url, callback) {
     }
   }
 
-  xhr.open('DELETE',url,false)
+  xhr.open('DELETE', url, false)
   xhr.send()
 }

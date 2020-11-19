@@ -323,12 +323,7 @@ function putToServer(activityField, resourceField, dateField, hoursField) {
       mainError.innerHTML = ""
       mainError.style.visibility = 'hidden'
 
-
-      // put(urlList.statusReport, secretKey, offlineReports, (res) => {
-      //   successResponse(mainError)
-      //   console.log(res)
-      // })
-      postAPI('http://localhost:8080/status',newReport, (res) => {
+      postAPI('http://localhost:8080/status', newReport, (res) => {
         statusHistoryLoader()
       })
     }

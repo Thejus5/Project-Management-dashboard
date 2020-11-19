@@ -72,11 +72,11 @@ function totalBillableAndShadowResources() {
 // Loads projects per technology list.
 function loadProjectsPerTechnology() {
     const sortable = projectsPerTechnology();
-    
+
     // Sort projects per technology in descending order
     const projectsPerTechnologyList = Object.entries(sortable)
-    .sort(([,a],[,b]) => b-a)
-    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+        .sort(([, a], [, b]) => b - a)
+        .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
     const technologyProjectCount = document.querySelector('#technology-project-count');
     const technologyProjectCountArray = Object.values(projectsPerTechnologyList);
@@ -139,7 +139,7 @@ function resourceProjectChart() {
     const graphBarColor = 'rgba(201, 203, 207, 0.4)';
     const graphBarBorderColor = 'rgb(201, 203, 207)';
     createChart(canvasId, projectNamesList, legendLabel, resourcesNumber, graphBarColor, graphBarBorderColor);
-    
+
 }
 
 // Returns number of resources per project.

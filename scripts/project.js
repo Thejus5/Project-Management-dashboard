@@ -19,7 +19,6 @@ function addOrUpdateProject(e) {
     formsContainer.style.display = "none";
 
     const projectDetails = {
-      // projectId: addProjectFunctionality ? projects.projectList.length : Number(selectedProjectId),
       name: projectName.value,
       client: clientName.value,
       manager: projectManager.value,
@@ -27,15 +26,11 @@ function addOrUpdateProject(e) {
       start_date: startDate.value,
       end_date: endDate.value,
       progress: progress.value || 0,
-      // technologies: technologies.value,
       description: description.value,
       technologies: technologies.value ? JSON.parse(technologies.value).map(tech => tech.value) : []
     }
 
     // If a new user-entered tag is not there in technologies array, add it to the array.
-    // projectDetails.technologies.forEach(tech => {
-    //     if (!projects.technologies.includes(tech)) { projects.technologies.push(tech); }
-    // });
     if (addProjectFunctionality) {
       postAPI('http://localhost:8080/projects', projectDetails, (res) => {
         console.log('Data Added')
@@ -73,7 +68,7 @@ function updateProjectToLocal(projectToDatabase) {
   projectToUpdate.endDate = projectToDatabase.end_date
   projectToUpdate.progress = projectToDatabase.progress
   projectToUpdate.description = projectToDatabase.description
-  projectToUpdate.technologies = JSON.stringify( projectToDatabase.technologies)
+  projectToUpdate.technologies = JSON.stringify(projectToDatabase.technologies)
 
 }
 
@@ -154,7 +149,6 @@ updateProject.addEventListener('click', function (e) {
   projectManager.value = selectedProject.projectManager;
   startDate.value = selectedProject.startDate;
   endDate.value = selectedProject.endDate;
-  // technologies.value = selectedProject.technologies.join(',');
   progress.value = selectedProject.progress;
   progressLabel.innerText = selectedProject.progress;
   description.value = selectedProject.description;

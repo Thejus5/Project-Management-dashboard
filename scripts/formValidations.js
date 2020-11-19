@@ -90,11 +90,11 @@ dates.addEventListener('click', _ => {
         *   RESOURCE FORM VALIDATION  * 
 **************************************************************************************************/
 
-const resourceName = document.getElementById("name"), 
-email = document.getElementById("email"),
-role = document.getElementById("role"), 
-billableStatus = document.getElementById("billable"), 
-rate = document.getElementById("rate")
+const resourceName = document.getElementById("name"),
+    email = document.getElementById("email"),
+    role = document.getElementById("role"),
+    billableStatus = document.getElementById("billable"),
+    rate = document.getElementById("rate")
 
 resourceName.addEventListener('keyup', _ => {
     document.querySelector("#name-error").textContent = ""

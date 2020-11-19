@@ -27,7 +27,6 @@ function addOrUpdateObject(resourceDetails) {
         })
     } else {
         // Update already existing resource.
-        // resources[selectedProjectId][selectedResource] = resourceDetails;
         putAPI(`http://localhost:8080/resources/${selectedResource}`, resourceDetails, (res) => {
             let resourceToUpdate = resources.find((resource) => resource.id == selectedResource && resource.project_id == selectedProjectId)
 
@@ -43,9 +42,6 @@ function addOrUpdateObject(resourceDetails) {
 
 // Function call to update changes to remote storage bin.
 function sendFormData() {
-    // put(urlList.resources, secretKey, resources, ()=>{
-    //     latestOfflineResources = resources
-    // });
     loadResources();
     resourceFormModal.style.display = "none";
     formsContainer.style.display = "none";
