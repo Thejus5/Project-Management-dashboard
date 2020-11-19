@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
@@ -31,6 +31,7 @@
         integrity="sha512-5K26U2JrBY0NJ/PVtWxH83wFeLdHPnrUxfw5GrE+kYTR8NglhnG0AdxFCJJuaPIp/4WJTaWK6MZHagmkBcgA2g=="
         crossorigin="anonymous"></script>
     <script defer src="scripts/utility.js"></script>
+    <script defer src="scripts/api.js"></script>
     <script defer src="scripts/dashboard.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
@@ -56,14 +57,16 @@
             </div>
             <!-- Logo Section -->
             <h1 class="header__logo">
-                <a href="index.html" ><img src="images/logo.png" alt="ProjectManager Logo" class="logo"></a> 
+                <a href="index.html"><img src="images/logo.png" alt="ProjectManager Logo" class="logo"></a>
                 <span class="website-header">&ensp; Project Manager </span>
             </h1>
-            <div class="options display-flex"><!-- User Section -->
-                <span class="highlight-tab"><a href="dashboard.html" >Dashboard</a></span>
+            <div class="options display-flex">
+                <!-- User Section -->
+                <span class="highlight-tab"><a href="dashboard.html">Dashboard</a></span>
                 <span><a href="index.html">Projects</a></span>
                 <span id="user"> Welcome, User &ensp; &#9660;
-                    <span id="logout-button"><a href="index.html"><img src="images/logout.png" alt="Logout Icon" class="icon"></a></span>
+                    <span id="logout-button"><a href="index.html"><img src="images/logout.png" alt="Logout Icon"
+                                class="icon"></a></span>
                 </span>
             </div>
         </div>
