@@ -32,12 +32,12 @@ function addOrUpdateProject(e) {
 
     // If a new user-entered tag is not there in technologies array, add it to the array.
     if (addProjectFunctionality) {
-      postAPI('http://localhost:8080/projects', projectDetails, (res) => {
+      postAPI(urlList.projects, projectDetails, (res) => {
         console.log('Data Added')
         document.location.reload()
       })
     } else {
-      putAPI(`http://localhost:8080/projects/${selectedProjectId}`, projectDetails, (res) => {
+      putAPI(`${urlList.projects}/${selectedProjectId}`, projectDetails, (res) => {
         console.log('Data updated')
         updateProjectToLocal(projectDetails)
         loadProjectList() // This updates everything

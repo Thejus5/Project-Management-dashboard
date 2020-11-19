@@ -6,12 +6,12 @@ let technologiesList
 
 // Fetches all dashboard data.
 const fetchDashboardData = () => {
-  getApi('http://localhost:8080/projects', storeProjectData)
-  getApi('http://localhost:8080/resources', storeResourceData)
-  getApi('http://localhost:8080/techs', (res) => {
+  getApi(urlList.projects, storeProjectData)
+  getApi(urlList.resources, storeResourceData)
+  getApi(urlList.techs, (res) => {
     technologiesList = res
   })
-  getApi('http://localhost:8080/status', (res) => {
+  getApi(urlList.statusReport, (res) => {
     offlineReports = res
   })
 

@@ -21,13 +21,13 @@ function addOrUpdateObject(resourceDetails) {
     }
     if (addResourceFunctionality) {
         // Add new resource.
-        postAPI('http://localhost:8080/resources', resourceDetails, (res) => {
+        postAPI(urlList.resources, resourceDetails, (res) => {
             resources.push({ id: JSON.parse(res), ...resourceDetails })
             loadResources();
         })
     } else {
         // Update already existing resource.
-        putAPI(`http://localhost:8080/resources/${selectedResource}`, resourceDetails, (res) => {
+        putAPI(`${urlList.resources}/${selectedResource}`, resourceDetails, (res) => {
             let resourceToUpdate = resources.find((resource) => resource.id == selectedResource && resource.project_id == selectedProjectId)
 
             resourceToUpdate.role = resourceDetails.role

@@ -1,8 +1,9 @@
 // Urls of remote data storage bin and secret key to access the data.
 const urlList = {
-  "projects": "https://api.jsonbin.io/b/5faba62548818715939f2b63",
-  "resources": "https://api.jsonbin.io/b/5faba5fc48818715939f2b59",
-  "statusReport": "https://api.jsonbin.io/b/5faba5beb509ba0cc56d718a"
+  "projects": "http://localhost:8080/projects",
+  "resources": "http://localhost:8080/resources",
+  "techs":"http://localhost:8080/techs",
+  "statusReport": "http://localhost:8080/status"
 }
 
 // Prints whatever is passed to it.
