@@ -38,8 +38,8 @@ function addOrUpdateProject(e) {
       })
     } else {
       putAPI(`${urlList.projects}/${selectedProjectId}`, projectDetails, (res) => {
-        console.log('Data updated')
-        updateProjectToLocal(projectDetails)
+        console.log(projectDetails)
+        updateProjectToLocal({projectId: selectedProjectId, ...projectDetails})
         loadProjectList() // This updates everything
       })
     }

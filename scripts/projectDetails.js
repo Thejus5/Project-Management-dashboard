@@ -15,6 +15,8 @@ const fetchDashboardData = () => {
     offlineReports = res
   })
 
+  console.log(projects)
+
   selectedProjectId = projects[projects.length - 1].projectId
   loadProjectList();
 }

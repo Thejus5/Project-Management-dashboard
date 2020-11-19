@@ -48,7 +48,7 @@ function addOrUpdateObject(resourceDetails) {
 }
 
 function findSimilarResource(resourceToFind){
-  let similarResource = resources.find((resource)=> resource.email == resourceToFind.email)
+  let similarResource = resources.find((resource)=> resource.email == resourceToFind.email && resource.project_id == resourceToFind.project_id)
   return similarResource
 }
 
